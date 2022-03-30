@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  ffmpeg:
+    container_name: ffmpeg-base
+    restart: always
+    image: "jenssgb/rtspffmpeg:base"
+    depends_on:
+      - rtsp-server
+    volumes:
+      - ./media/:/media
+    network_mode: "host"
+    command: "ffmpeg -re -stream_loop -1 -i /media/test.mp4 -vf 'fps=6'  -b:v 1M  -maxrate 1M -bufsize 500K -f rtsp rtsp://localhost:8554/compose-rtsp"
+  
+  rtsp-server:
+    container_name: rtsp-server-base
+    restart: always
+    image: "aler9/rtsp-simple-server"
+    network_mode: "host"
