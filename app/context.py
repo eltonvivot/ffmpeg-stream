@@ -6,7 +6,8 @@ def get_all():
 
 def get(data_name):
     print(f"debug - get({data_name})")
-    data = json.loads(cdata)[data_name]
+    with open(cdata, "r") as cfile:
+        data = json.loads(cfile)[data_name]
     if data_name not in data: print(f"Context do not have '{data_name}'.")
     return data[data_name]
 
