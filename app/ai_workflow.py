@@ -22,7 +22,7 @@ def connect():
 def disconnect():
     global client
     if not client: print("Invalid connection.")
-    else: client: client.close()
+    else: client.close()
 
 # Starts AI Object Detection
 def start_detection():
