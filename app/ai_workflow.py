@@ -20,20 +20,16 @@ def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.
         client.connect(username=user, hostname=ip, port=port, password="ffmpeg")
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
-        if(stderr.channel.recv_exit_status() != 0):
-            print(stderr.read().decode(encoding='UTF-8'))
-        else:
-            # output = stdout.read().decode(encoding='UTF-8')
-            for line in iter(stdout.readline, ""):
-                print(line, end="")
-                if 'person:' in line:
-                    person = {
-                        "ap": (line.split(':')[1])[1],
-                        "time": datetime.timestamp(datetime.now()),
-                        # "bandwidth": uav_data['bandwidth']
-                    }
-                    print(f"<------------------------->\n{person}\n<------------------------->")
-                    persons.append(person)
+        for line in iter(stdout.readline, ""):
+            print(line, end="")
+            if 'person:' in line:
+                person = {
+                    "ap": (line.split(':')[1])[1],
+                    "time": datetime.timestamp(datetime.now()),
+                    # "bandwidth": uav_data['bandwidth']
+                }
+                print(f"<------------------------->\n{person}\n<------------------------->")
+                persons.append(person)
     except Exception as err:
             print(str(err))
 
