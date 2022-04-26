@@ -27,8 +27,6 @@ services:
     build: .
     image: nrt
     # env_file: ./.env
-    ports: 
-      - 5000:5000 
     #restart: on-failure
     # volumes:
     #  - ./app:/app    
