@@ -27,3 +27,6 @@ def main():
         return get()
     elif args.method.lower == 'post':
         return post()
+
+if __name__ == '__main__':
+    main()
