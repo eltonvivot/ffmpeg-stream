@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  ffmpeg:
-    container_name: ffmpeg-base
+  uav-cam:
+    container_name: uav-cam
     restart: always
     image: "jenssgb/rtspffmpeg:base"
     environment:
