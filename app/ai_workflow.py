@@ -17,7 +17,7 @@ def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.
         client = paramiko.SSHClient()
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(username=user, hostname=ip, port=port)
+        client.connect(username=user, hostname=ip, port=port, password="ffmpeg")
         # executes command
         _,stdout,stderr = client.exec_command(command)
         if(stderr.channel.recv_exit_status() != 0):
