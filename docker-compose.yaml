@@ -28,6 +28,6 @@ services:
     image: nrt
     # env_file: ./.env
     #restart: on-failure
-    # volumes:
-    #  - ./app:/app    
+    volumes:
+     - ./app:/app    
     network_mode: "host"
