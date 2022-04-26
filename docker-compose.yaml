@@ -1,21 +1,25 @@
 version: '3'
 
 services:
-  uav-ue:
-    container_name: uav-ue
+  ffmpeg:
+    container_name: ffmpeg-base
     restart: always
     image: "jenssgb/rtspffmpeg:base"
+    environment:
+      - RTSP_PROTOCOLS=tcp
     depends_on:
       - rtsp-server
     volumes:
       - ./media/:/media
     network_mode: "host"
-    command: "ffmpeg -re -stream_loop -1 -i /media/test.mp4 -vf 'fps=6'  -b:v 1M  -maxrate 1M -bufsize 500K -f rtsp rtsp://localhost:8554/compose-rtsp"
-  
+    command: "ffmpeg -re -stream_loop -1 -i /media/4k-video.mkv -vf 'fps=3'  -b:v 1M  -maxrate 200M -bufsize 1000K -f rtsp rtsp://localhost:8554/compose-rtsp"
+
   rtsp-server:
     container_name: rtsp-server-base
     restart: always
     image: "aler9/rtsp-simple-server"
+    environment:
+      - RTSP_PROTOCOLS=tcp
     network_mode: "host"
   
   nrt:
