@@ -19,6 +19,8 @@ def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(username=user, hostname=ip, port=port, password="ffmpeg")
+        transport = client.get_transport()
+        transport.set_keepalive(1)
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
