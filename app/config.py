@@ -1,11 +1,9 @@
 import os
 
-root_dir = '/app/'
-
 # data files
-cdata = root_dir + str(os.getenv("CONTEXT_DATA_FILE"))
-app_data = root_dir + str(os.getenv("APP_DATA_FILE"))
-odata = root_dir + str(os.getenv("O1_DATA_FILE"))
+cdata = str(os.getenv("CONTEXT_DATA_FILE"))
+app_data = str(os.getenv("APP_DATA_FILE"))
+odata = str(os.getenv("O1_DATA_FILE"))
 
 # AI ssh config
 ai_user = str(os.getenv("AI_SSH_USER"))
