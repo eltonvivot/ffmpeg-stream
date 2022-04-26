@@ -10,10 +10,10 @@ cdata = "uav_data"
 def handle_uav_data():
     print(f"{request.path} | {request.method}")
     if request.method == 'GET': 
-        return jsonify(get(cdata))
+        return jsonify(get(cdata)), 200
     if request.method == 'POST': 
         post(cdata, request.get_json())
         data = get(cdata)
         if data['cam_status'] == 'on': start_detection()
         if data['cam_status'] == 'off': disconnect()
-        return jsonify(get(cdata))
+        return jsonify(get(cdata)), 200

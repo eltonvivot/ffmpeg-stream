@@ -29,5 +29,6 @@ services:
     env_file: ./config.env
     #restart: on-failure
     volumes:
-     - ./app:/app    
+     - ./app:/app  
+     - ./data:/data  
     network_mode: "host"
