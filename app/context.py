@@ -3,12 +3,11 @@ from config import cdata
 
 def get_all():
     with open(cdata, 'r') as cfile:
-        return json.loads(cfile)
+        return json.load(cfile)
 
 def get(data_name):
     print(f"debug - get({data_name})")
-    with open(cdata, 'r') as cfile:
-        data = json.loads(cfile)[data_name]
+    data = get_all()
     if data_name not in data: print(f"Context do not have '{data_name}'.")
     return data[data_name]
 
