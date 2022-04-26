@@ -32,6 +32,8 @@ def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.
                 persons.append(person)
     except Exception as err:
             print(str(err))
+    finally:
+        if client: client.close()
 
 # Simulates a request for more bandwidth
 def require_bandwidth(message = ''):
