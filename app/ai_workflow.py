@@ -1,7 +1,7 @@
 # Simulates AI/ML workflow
 from subprocess import Popen, PIPE, STDOUT
 from datetime import datetime
-# from data_collector import uav_data
+from data_collector import uav_data
 import paramiko
 
 persons = []
