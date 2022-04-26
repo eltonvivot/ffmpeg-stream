@@ -6,7 +6,7 @@ from ai_workflow import start_detection, disconnect
 uav_data_bp = Blueprint('uav', '__name__', url_prefix='/uav_data')
 cdata = "uav_data"
 
-@uav_data_bp.route(methods=['GET, POST'])
+@uav_data_bp.route('', methods=['GET, POST'])
 def handle_uav_data():
     if request.method == 'GET': 
         return jsonify(get(cdata))
