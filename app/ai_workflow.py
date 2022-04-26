@@ -1,7 +1,7 @@
 # Simulates AI/ML workflow
 from subprocess import Popen, PIPE, STDOUT
 from datetime import datetime
-from data_collector import uav_data
+# from data_collector import uav_data
 import paramiko
 
 persons = []
@@ -52,4 +52,5 @@ def manage_bandwidth():
         if min_bdwt < uav_data['bandwidth']: 
             require_bandwidth('Insufficient current bandwidth')
 
+print("starting detection ...")
 start_detection()
