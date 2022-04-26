@@ -25,7 +25,7 @@ def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.
             print(line, end="")
             if 'person:' in line:
                 person = {
-                    "ap": (line.split(':')[1])[1],
+                    "ap": line.split(':')[1],
                     "time": datetime.timestamp(datetime.now()),
                     # "bandwidth": uav_data['bandwidth']
                 }
