@@ -2,6 +2,7 @@
 from subprocess import Popen, PIPE, STDOUT
 from datetime import datetime
 from data_collector import uav_data
+import paramiko
 
 persons = []
 
@@ -10,22 +11,30 @@ def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.
     global persons
     # defines command to start object detection
     command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {camera}"
-    # start throught ssh connection
-    p = Popen(f"ssh {user}@{ip} -p {port} '{command}", stdout = PIPE, stderr = STDOUT, shell = True)
-    # monitor stdout (using while variant to skip bugs)
-    while True:
-        line = (p.stdout.readline()).decode()
-        print(line)
-        if not line: break
-        if 'person:' in line:
-            person_qnt = (line.split(':')[1])[1]
-            if person_qnt > 0:
+    # start AI throught ssh connection
+    try:
+        # creates paramiko connection 
+        client = paramiko.SSHClient()
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(username=user, hostname=ip, port=port)
+        # executes command
+        _,stdout,stderr = client.exec_command(command)
+        if(stderr.channel.recv_exit_status() != 0):
+            print(stderr.read().decode(encoding='UTF-8'))
+        else:
+            output = stdout.read().decode(encoding='UTF-8')
+            print(output)
+            if 'person:' in output:
                 person = {
-                    "qnt": person_qnt,
+                    "ap": (line.split(':')[1])[1],
                     "time": datetime.timestamp(datetime.now()),
-                    "bandwidth": uav_data['bandwidth']
+                    # "bandwidth": uav_data['bandwidth']
                 }
+                print(f"<------------------------->\n{person}\n<------------------------->")
                 persons.append(person)
+    except Exception as err:
+            print(str(err))
 
 # Simulates a request for more bandwidth
 def require_bandwidth(message = ''):
