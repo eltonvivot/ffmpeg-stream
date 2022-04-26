@@ -10,7 +10,8 @@ persons = []
 def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.10.21.10:8554/compose-rtsp"):
     global persons
     # defines command to start object detection
-    command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {camera} -dont_show"
+    # command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {camera} -dont_show"
+    command = f"cd darknet && ./darknet detector test cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights data/person.jpg -dont_show"
     # start AI throught ssh connection
     try:
         # creates paramiko connection 
