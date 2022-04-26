@@ -3,10 +3,10 @@ from flask import Blueprint, request, jsonify
 from context import get, post
 from ai_workflow import start_detection, disconnect
 
-uav_data_bp = Blueprint('uav', '__name__', url_prefix='/uav_data')
+uav_data_bp = Blueprint('uav', '__name__')
 cdata = "uav_data"
 
-@uav_data_bp.route('', methods=['GET, POST'])
+@uav_data_bp.route('/uav_data', methods=['GET, POST'])
 def handle_uav_data():
     print(f"{request.path} | {request.method}")
     if request.method == 'GET': 

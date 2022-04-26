@@ -2,10 +2,10 @@
 from flask import Blueprint, request, jsonify
 from context import get, post
 
-ai_data_bp = Blueprint('ai_data', '__name__', url_prefix='/ai_data')
+ai_data_bp = Blueprint('ai_data', '__name__')
 cdata = "uav_data"
 
-@ai_data_bp.route('', methods=['GET, POST'])
+@ai_data_bp.route('/ai_data', methods=['GET, POST'])
 def handle_uav_data():
     if request.method == 'GET': 
         return jsonify(get(cdata))
