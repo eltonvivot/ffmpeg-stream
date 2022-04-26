@@ -14,7 +14,7 @@ def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.
     p = Popen(f"ssh {user}@{ip} -p {port} '{command}", stdout = PIPE, stderr = STDOUT, shell = True)
     # monitor stdout (using while variant to skip bugs)
     while True:
-        line = p.stdout.readline()
+        line = (p.stdout.readline()).decode()
         print(line)
         if not line: break
         if 'person:' in line:
