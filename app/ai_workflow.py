@@ -6,15 +6,16 @@ from data_collector import uav_data
 persons = []
 
 # Starts IA Object Detection
-def start_detection(user, ip, port, camera):
+def start_detection(user="root", ip="10.10.21.11", port="22", camera="rtsp://10.10.21.10:8554/compose-rtsp"):
     global persons
     # defines command to start object detection
-    command = f"darknet detector demo ~/darknet/cfg/coco.data ~/darknet/cfg/yolov4.cfg ~/darknet/yolov4.weights {camera}"
+    command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {camera}"
     # start throught ssh connection
     p = Popen(f"ssh {user}@{ip} -p {port} '{command}", stdout = PIPE, stderr = STDOUT, shell = True)
     # monitor stdout (using while variant to skip bugs)
     while True:
         line = p.stdout.readline()
+        print(line)
         if not line: break
         if 'person:' in line:
             person_qnt = (line.split(':')[1])[1]
@@ -41,3 +42,5 @@ def manage_bandwidth():
             require_bandwidth('Stream resolution is not 4K')
         if min_bdwt < uav_data['bandwidth']: 
             require_bandwidth('Insufficient current bandwidth')
+
+start_detection()
