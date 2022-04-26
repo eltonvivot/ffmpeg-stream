@@ -13,7 +13,7 @@ def post(args):
         print("Missing '--cam-status' parameter.")
         return
     data = {
-        'cam_status': args.cam_status
+        'cam_status': args.cam_status.lower()
     }
     print(f"Data:\n{data}")
     r = requests.post(url=API_ENDPOINT, data=data)
@@ -26,9 +26,9 @@ def main():
 
     args = parser.parse_args()
     
-    if args.method.lower == 'get':
+    if args.method.lower() == 'get':
         return get()
-    elif args.method.lower == 'post':
+    elif args.method.lower() == 'post':
         return post()
 
 if __name__ == '__main__':
