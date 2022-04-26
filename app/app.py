@@ -6,10 +6,11 @@ from config import show_config
 if __name__ == '__main__':
     show_config()
     app = Flask(__name__)
-    app.register_blueprint(uav_data_bp)
-    app.register_blueprint(ai_data_bp)
-    app.run(host='0.0.0.0', port=5001)
-
+    # log
     @app.before_request
     def log():
         print(f"{request.path} | {request.method}")
+    # endpoints
+    app.register_blueprint(uav_data_bp)
+    app.register_blueprint(ai_data_bp)
+    app.run(host='0.0.0.0', port=5001)
