@@ -54,4 +54,4 @@ def manage_bandwidth():
             require_bandwidth('Insufficient current bandwidth')
 
 print("starting detection ...")
-start_detection()
+# start_detection()
