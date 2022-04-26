@@ -1,0 +1,21 @@
+[
+    {
+        "time": 1649856920,
+        "status": "ready",
+        "ssh": { 
+            "ip": "localhost",
+            "port": 22
+        },
+        "log": "Objectic Detection AI is ready."
+    },
+    {
+        "time": 1849856920,
+        "status": "error",
+        "ssh": { 
+            "ip": "localhost",
+            "port": 22
+        },
+        "log": "An error has occurred while connecting to stream <xxxxx>."
+    }
+
+]

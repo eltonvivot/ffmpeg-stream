@@ -1,0 +1,41 @@
+{
+    "uav_data": [
+            {
+                "signal_intensity": 90,
+                "bandwidth": 100,
+                "time": 1649856920
+            },
+            {
+                "signal_intensity": 80,
+                "bandwidth": 90,
+                "time": 1649856920
+            },
+            {
+                "signal_intensity": 70,
+                "bandwidth": 60,
+                "time": 1649856920
+            },
+            {
+                "signal_intensity": 60,
+                "bandwidth": 80,
+                "time": 1649856920
+            },
+            {
+                "signal_intensity": 50,
+                "bandwidth": 65,
+                "time": 1649856920
+            } 
+        ],
+    "mission_critical_data":{
+        "data_type1": [
+            {
+                "example1": "example",
+                "example2": 2
+            },
+            {
+                "example1": "example",
+                "example2": 2
+            }
+        ]
+    }
+}

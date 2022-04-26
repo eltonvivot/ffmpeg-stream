@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  ffmpeg:
-    container_name: ffmpeg-base
+  uav-ue:
+    container_name: uav-ue
     restart: always
     image: "jenssgb/rtspffmpeg:base"
     depends_on:
@@ -16,4 +16,16 @@ services:
     container_name: rtsp-server-base
     restart: always
     image: "aler9/rtsp-simple-server"
+    network_mode: "host"
+  
+  nrt:
+    container_name: nrt
+    build: .
+    image: nrt
+    # env_file: ./.env
+    ports: 
+      - 5000:5000 
+    #restart: on-failure
+    # volumes:
+    #  - ./app:/app    
     network_mode: "host"
