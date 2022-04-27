@@ -4,6 +4,7 @@ from config import ai_user, ai_passwd, ai_host, ai_port, uav_cam, od_output, od_
 import paramiko, logging, time, os
 
 logger = logging.getLogger(__name__)
+logging.getLogger("paramiko").setLevel(logging.WARNING)
 client = None
 
 # Connects to AI Object Detection
