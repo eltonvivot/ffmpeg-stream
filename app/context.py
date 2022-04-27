@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 def get_all():
     with open(cdata, 'r') as cfile:
-        return json.loads(cfile)
+        return json.load(cfile)
 
 def get(data_name):
     logger.debug(f"...")
@@ -19,4 +19,4 @@ def post(data_name, data):
     context = get_all()
     context[data_name] = data
     with open(cdata, 'w') as cfile:
-        json.dumps(context, cfile, indent=2)
+        json.dump(context, cfile, indent=2)
