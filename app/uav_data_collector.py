@@ -14,7 +14,6 @@ def handle_uav_data():
     logger.debug(f"{request.path} | {request.method}")
     try:
         if request.method == 'GET': 
-            return jsonify("DISGRAAAACAAAAA"), 200
             return jsonify(get(cdata)), 200
         if request.method == 'POST': 
             post(cdata, request.get_json())
