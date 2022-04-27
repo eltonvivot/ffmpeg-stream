@@ -10,7 +10,7 @@ def get_all():
 def get(data_name):
     logger.debug(f"...")
     data = get_all()
-    if data_name not in data: logger.error(f"Context do not have '{data_name}'.")
+    if data_name not in data: raise Exception(f"Context do not have '{data_name}'.")
     return data[data_name]
 
 # works as update

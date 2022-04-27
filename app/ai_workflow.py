@@ -23,14 +23,14 @@ def connect():
 # Disconnects of AI Object Detection
 def disconnect():
     global client
-    if not client: logger.error("Invalid connection.")
+    if not client: logger.warning("Invalid connection.")
     else: client.close()
 
 # Starts AI Object Detection
 def start_detection():
     global client
     # Check if already have connections
-    if client: print("Object Detection is already running.") 
+    if client: logger.warning("Object Detection is already running.") 
     else: connect()
     # defines command to start object detection
     command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {uav_cam} -dont_show"

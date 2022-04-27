@@ -3,6 +3,13 @@ from uav_data_collector import uav_data_bp
 from ai_data_collector import ai_data_bp
 from errors import errors_bp
 from config import show_config
+import logging
+
+# init logs
+f='%(asctime)s | %(levelname)s | %(name)s:%(funcName)s | %(message)s'
+log_level=logging.DEBUG
+logging.basicConfig()
+logging.basicConfig(level=log_level, format=f)
 
 if __name__ == '__main__':
     show_config()
