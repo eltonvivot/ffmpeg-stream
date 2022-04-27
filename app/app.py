@@ -5,14 +5,14 @@ from errors import errors_bp
 from config import show_config
 import logging
 
-# init logs
-f='%(asctime)s | %(levelname)s | %(name)s:%(funcName)s | %(message)s'
-log_level=logging.DEBUG
-logging.basicConfig()
-logging.basicConfig(level=log_level, format=f)
-
 if __name__ == '__main__':
     show_config()
+
+    # init logs
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s | %(levelname)s | %(name)s:%(funcName)s | %(message)s')
+    logger = logging.getLogger(__name__)
+    logger.debug("Logging is on.")
+
     app = Flask(__name__)
     # endpoints
     app.register_blueprint(uav_data_bp)
