@@ -1,8 +1,9 @@
 # Simulates AI/ML workflow
-import paramiko
+import paramiko, logging
 from datetime import datetime
 from config import ai_user, ai_passwd, ai_host, ai_port, uav_cam
 
+logger = logging.getLogger(__name__)
 client = None
 
 # Connects to AI Object Detection
@@ -16,12 +17,13 @@ def connect():
         transport = client.get_transport()
         transport.set_keepalive(1)
     except Exception as err:
-            print(str(err))
+            logger.error(str(err))
+            raise
 
 # Disconnects of AI Object Detection
 def disconnect():
     global client
-    if not client: print("Invalid connection.")
+    if not client: logger.error("Invalid connection.")
     else: client.close()
 
 # Starts AI Object Detection
@@ -44,9 +46,10 @@ def start_detection():
                     "time": datetime.timestamp(datetime.now()),
                     # "bandwidth": uav_data['bandwidth']
                 }
-                print(f"<------------------------->\n{person}\n<------------------------->")
+                logger.info(f"<------------------------->\n{person}\n<------------------------->")
     except Exception as err:
-            print(str(err))
+            logger.error(str(err))
+            raise
     finally:
         if client: client.close()
 
