@@ -29,7 +29,7 @@ def main():
     if args.method.lower() == 'get':
         return get()
     elif args.method.lower() == 'post':
-        return post()
+        return post(args)
 
 if __name__ == '__main__':
     main()
