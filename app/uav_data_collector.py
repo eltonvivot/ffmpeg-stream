@@ -21,3 +21,4 @@ def handle_uav_data():
             return jsonify(get(cdata)), 200
     except Exception as err:
         print(f"{err.__class__.__name__}: {err}")
+        raise
