@@ -11,4 +11,4 @@ if __name__ == '__main__':
     app.register_blueprint(uav_data_bp)
     app.register_blueprint(ai_data_bp)
     app.register_blueprint(errors_bp)
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001)
