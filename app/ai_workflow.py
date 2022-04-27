@@ -44,7 +44,7 @@ def start_detection():
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
-            log_to_file(line, od_output)
+            log_to_file(line.rstrip("\n"), od_output)
             if 'person:' in line:
                 log_to_file(f"{id} | AP:{(line.split(':')[1])[:4]}", od_results)
     except Exception:
