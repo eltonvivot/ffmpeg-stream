@@ -11,8 +11,9 @@ cdata = "uav_data"
 
 @uav_data_bp.route('/uav_data', methods=['GET', 'POST'])
 def handle_uav_data():
+    logger.debug(f"AAAAAAAAAAAAAAAAA")
+    logger.debug(f"{request.path} | {request.method}")
     try:
-        logger.debug(f"{request.path} | {request.method}")
         if request.method == 'GET': 
             return jsonify(get(cdata)),
         if request.method == 'POST': 
