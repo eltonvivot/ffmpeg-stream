@@ -11,7 +11,6 @@ if __name__ == '__main__':
     # init logs
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s | %(levelname)s | %(name)s:%(funcName)s | %(message)s')
     logger = logging.getLogger(__name__)
-    logger.debug("Logging is on.")
 
     app = Flask(__name__)
     # endpoints

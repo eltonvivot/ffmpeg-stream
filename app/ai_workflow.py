@@ -1,7 +1,7 @@
 # Simulates AI/ML workflow
-import paramiko, logging
 from datetime import datetime
-from config import ai_user, ai_passwd, ai_host, ai_port, uav_cam
+from config import ai_user, ai_passwd, ai_host, ai_port, uav_cam, od_output, od_results
+import paramiko, logging, time, os
 
 logger = logging.getLogger(__name__)
 client = None
@@ -32,6 +32,10 @@ def start_detection():
     # Check if already have connections
     if client: logger.warning("Object Detection is already running.") 
     else: connect()
+    # Write to output and results file
+    string = f"\n##### OBJECT DETECTION : {datetime.timestamp(datetime.now())} #####"
+    log_to_file(string, od_output)
+    log_to_file(string, od_results)
     # defines command to start object detection
     command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {uav_cam} -dont_show"
     # command = f"cd darknet && ./darknet detector test cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights data/person.jpg -dont_show"
@@ -39,19 +43,21 @@ def start_detection():
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
-            print(line, end="")
+            log_to_file(line, od_output)
             if 'person:' in line:
-                person = {
-                    "ap": line.split(':')[1],
-                    "time": datetime.timestamp(datetime.now()),
-                    # "bandwidth": uav_data['bandwidth']
-                }
-                logger.info(f"<------------------------->\n{person}\n<------------------------->")
-    except Exception as err:
-            logger.error(str(err))
+                log_to_file(f"{datetime.timestamp(datetime.now())}\t{(line.split(':')[1])[:3]}", od_results)
+    except Exception:
             raise
     finally:
         if client: client.close()
+
+# Stops AI Object Detection after given seconds
+def stop_detection(seconds=0):
+    time.sleep(secs=seconds)
+    disconnect()
+
+def log_to_file(string, file):
+    os.system(f"echo '{string}' >> {file}")
 
 # # Simulates a request for more bandwidth
 # def require_bandwidth(message = ''):
