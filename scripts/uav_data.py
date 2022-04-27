@@ -16,7 +16,7 @@ def post(args):
         'cam_status': args.cam_status.lower()
     }
     print(f"Data:\n{data}")
-    r = requests.post(url=API_ENDPOINT, data=data)
+    r = requests.post(url=API_ENDPOINT, json=data)
     print(r.json())
 
 def main():
