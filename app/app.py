@@ -8,7 +8,7 @@ if __name__ == '__main__':
     show_config()
     app = Flask(__name__)
     # endpoints
-    app.register_blueprint(uav_data_bp)
-    app.register_blueprint(ai_data_bp)
-    app.register_blueprint(errors_bp)
+    app.register_bluelogger.debug(uav_data_bp)
+    app.register_bluelogger.debug(ai_data_bp)
+    app.register_bluelogger.debug(errors_bp)
     app.run(host='0.0.0.0', port=5001, debug=True)
