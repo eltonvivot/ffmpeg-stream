@@ -53,7 +53,7 @@ def start_detection():
 
 # Stops AI Object Detection after given seconds
 def stop_detection(seconds=0):
-    time.sleep(secs=seconds)
+    time.sleep(seconds)
     disconnect()
 
 def log_to_file(string, file):
