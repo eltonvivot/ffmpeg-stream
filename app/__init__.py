@@ -2,4 +2,6 @@ import logging
 
 # init logs
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s | %(levelname)s | %(message)s')
+f='%(asctime)s | %(levelname)s | %(name)s:%(funcName)s | %(message)s'
+log_level=logging.DEBUG
+logging.basicConfig(level=log_level, format=f)
