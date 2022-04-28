@@ -1,8 +1,7 @@
-from flask import Flask
+from flask import Flask, jsonify
 from dotenv import load_dotenv
-from app.errors import errors_bp
 from tc_controller import tc_controller_bp
-import logging
+import logging, traceback
 
 if __name__ == '__main__':
     # init logs
@@ -14,8 +13,11 @@ if __name__ == '__main__':
     
     app = Flask(__name__)
     # endpoints
-    app.register_blueprint(errors_bp)
     app.register_blueprint(tc_controller_bp)
-    
+
+    @app.errorhandler(Exception)
+    def handle_errors(error):
+        logger.debug(traceback.format_exc())
+        return jsonify({'error': str(error) }), 500
 
     app.run(host='0.0.0.0', port=5002)
