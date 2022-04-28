@@ -15,8 +15,8 @@ def stop():
 def main():
     parser = argparse.ArgumentParser(description="UAV_DATA REST Functions")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('-st', '--start', help="Starts Object Detection AI.")
-    group.add_argument('-sp', '--stop', help="Stops Object Detection AI.")
+    group.add_argument('-st', '--start', action='store_true', help="Starts Object Detection AI.")
+    group.add_argument('-sp', '--stop', action='store_true', help="Stops Object Detection AI.")
 
     args = parser.parse_args()
     
