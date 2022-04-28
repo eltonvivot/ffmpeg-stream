@@ -34,9 +34,9 @@ def start_detection():
     if client: logger.warning("Object Detection is already running.") 
     else: connect()
     # Write to output and results file
-    id = int(datetime.timestamp(datetime.now()))
-    log_to_file(f"\n##### OBJECT DETECTION : {id} #####", od_output)
-    log_to_file(f"\n##### OBJECT DETECTION : {id} #####", od_results)
+    string = f"\n##### OBJECT DETECTION : {int(datetime.timestamp(datetime.now()))} #####" 
+    log_to_file(string, od_output)
+    log_to_file(string, od_results)
     # defines command to start object detection
     command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {uav_cam} -dont_show"
     # command = f"cd darknet && ./darknet detector test cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights data/person.jpg -dont_show"
@@ -46,7 +46,7 @@ def start_detection():
         for line in iter(stdout.readline, ""):
             log_to_file(line.rstrip("\n"), od_output)
             if 'person:' in line:
-                log_to_file(f"{id} | AP:{(line.split(':')[1])[:4]}", od_results)
+                log_to_file(f"{int(datetime.timestamp(datetime.now()))} | AP:{(line.split(':')[1])[:4]}", od_results)
     except Exception:
             raise
     finally:

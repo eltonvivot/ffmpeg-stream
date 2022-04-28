@@ -1,9 +1,8 @@
 # Simulates Data management and exposure
 from flask import Blueprint, request, jsonify
 from context import get, post
-from ai_workflow import start_detection, stop_detection
-from config import ai_dtime
-import logging, threading
+from ai_workflow import stop_detection
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +18,6 @@ def handle_uav_data():
         if request.method == 'POST': 
             post(cdata, request.get_json())
             data = get(cdata)
-            if data['cam_status'] == 'on': 
-                threading.Thread(target=start_detection).start()
-                threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
             if data['cam_status'] == 'off': stop_detection()
             return jsonify(get(cdata)), 200
     except Exception as err:
