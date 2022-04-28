@@ -2,6 +2,7 @@ import os
 
 # data files
 cdata = str(os.getenv("CONTEXT_DATA_FILE"))
+tc_rules = str(os.getenv("TC_RULES_FILE"))
 app_data = str(os.getenv("APP_DATA_FILE"))
 odata = str(os.getenv("O1_DATA_FILE"))
 od_output = str(os.getenv("OBJECT_DETECTION_OUTPUT_FILE"))

@@ -1,0 +1,7 @@
+ffmpeg-python
+opencv-python
+imutils
+paramiko
+Flask
+tcconfig
+python-dotenv

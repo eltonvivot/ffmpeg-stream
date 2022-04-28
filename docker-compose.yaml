@@ -12,7 +12,7 @@ services:
     volumes:
       - ./media/:/media
     network_mode: "host"
-    command: "ffmpeg -re -stream_loop -1 -i /media/4k-video.mkv -vf 'fps=3'  -b:v 1M  -maxrate 200M -bufsize 1000K -f rtsp rtsp://localhost:8554/compose-rtsp"
+    command: "${FFMPEG_CMD}"
 
   rtsp-server:
     container_name: rtsp-server-base
@@ -26,7 +26,7 @@ services:
     container_name: nrt
     build: .
     image: nrt
-    env_file: ./config.env
+    env_file: ./app/config.env
     #restart: on-failure
     volumes:
      - ./app:/app  
