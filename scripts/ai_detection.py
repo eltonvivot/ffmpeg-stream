@@ -13,7 +13,7 @@ def stop():
     print(r.json())
 
 def main():
-    parser = argparse.ArgumentParser(description="UAV_DATA REST Functions")
+    parser = argparse.ArgumentParser(description="AI DETECTION REST Functions")
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-st', '--start', action='store_true', help="Starts Object Detection AI.")
     group.add_argument('-sp', '--stop', action='store_true', help="Stops Object Detection AI.")

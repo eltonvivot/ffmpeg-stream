@@ -1,5 +1,0 @@
-ffmpeg-python
-opencv-python
-imutils
-paramiko
-Flask

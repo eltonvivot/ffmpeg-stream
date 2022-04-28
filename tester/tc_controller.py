@@ -32,6 +32,6 @@ def create_rules(rules):
     logger.debug(os.system(tc_cmd))
 
 def delete_rules():
-    tc_cmd = f"tcset {if_name} --all"
+    tc_cmd = f"tcdel {if_name} --all"
     logger.info(f"Executing command '{tc_cmd}'")
     logger.debug(os.system(tc_cmd))
