@@ -1,0 +1,13 @@
+[Unit]
+Description=UE Controller application
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root/ffmpeg-stream/ue_controller
+Environment=FFMPEG_CMD="ffmpeg -re -stream_loop -1 -i /media/4k-video.mkv -vf 'fps=3'  -b:v 1M -bufsize 1000K -f rtsp rtsp://localhost:8554/compose-rtsp"
+ExecStart=python3 /root/ffmpeg-stream/ue_controller/run.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
