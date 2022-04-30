@@ -1,7 +1,7 @@
 # Simulates AI/ML workflow
 from datetime import datetime
-from config import ai_user, ai_passwd, ai_host, ai_port, uav_cam, od_output, od_results
-import paramiko, logging, time, os
+from config import ai_user, ai_passwd, ai_host, ai_port, ai_dtime, uav_cam, od_output, od_results, tc_control
+import paramiko, logging, time, os, threading, requests
 
 logger = logging.getLogger(__name__)
 logging.getLogger("paramiko").setLevel(logging.WARNING)
@@ -41,12 +41,25 @@ def start_detection():
     command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {uav_cam} -dont_show"
     # command = f"cd darknet && ./darknet detector test cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights data/person.jpg -dont_show"
     try:
+        triggered_stop = False
+        stime = 0.0
+        results = {}
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
             log_to_file(line.rstrip("\n"), od_output)
+            if 'Done!' in line and not triggered_stop:
+                threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
+                stime = datetime.timestamp(datetime.now())
             if 'person:' in line:
-                log_to_file(f"{int(datetime.timestamp(datetime.now()))} | AP:{(line.split(':')[1])[:4]}", od_results)
+                tc_rules = (requests.get(url=tc_control)).json()
+                dtime = datetime.timestamp(datetime.now()) - stime
+                logp = "Time: {:.2f}".format(dtime) + f" | AP:{(line.split(':')[1])[:4]}"
+                results['time'] = dtime
+                for k, v in tc_rules.items():
+                    results[k] = v
+                    logp+= f" | {k}:{v}"
+                log_to_file(logp, od_results)
     except Exception:
             raise
     finally:

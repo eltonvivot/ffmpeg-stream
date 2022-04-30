@@ -20,6 +20,9 @@ ai_dtime = int(str(os.getenv("AI_DETECTION_TIME")))
 # UAV CAM config
 uav_cam = str(os.getenv("UAV_CAM_ADDRESS"))
 
+# UE Controller Endpoints
+tc_control = str(os.getenv("TC_CONTROLLER_ENDPOINT"))
+
 def show_config():
     print("------ APP CONFIG ------")
     print(f"CONTEXT_DATA_FILE={cdata}\nAPP_DATA_FILE={app_data}\nO1_DATA_FILE={odata}")
