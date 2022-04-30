@@ -15,3 +15,7 @@ uav_cfile = str(os.getenv("UAV_CAM_CONTAINER_COMPOSE_FILE"))
 
 # FFMPEG config
 ffmpeg_cmd = str(os.getenv("FFMPEG_DEFAULT_COMMAND"))
+
+# NTR ENDPOINTS
+uav_data_end = str(os.getenv("UAV_DATA_ENDPOINT"))
+ai_detec_end = str(os.getenv("AI_DETECTION_ENDPOINT"))

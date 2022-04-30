@@ -1,7 +1,7 @@
 from turtle import delay
 from flask import Blueprint, jsonify
-from config import uav_cname, ffmpeg_cmd, uav_cfile
-import logging, os, time
+from config import uav_cname, ffmpeg_cmd, uav_cfile, uav_data_end
+import logging, os, time, requests
 
 logger = logging.getLogger(__name__)
 
@@ -9,11 +9,15 @@ cam_controller_bp = Blueprint('uav_cam', '__name__', url_prefix='/uav_cam')
 
 @cam_controller_bp.route('/start', methods=['GET'])
 def handle_start_cam():
-    return jsonify({'result': start_cam()})
+    result = start_cam()
+    logger.debug(f"Received from uav_data: {update_uav_cam_status('on')}")
+    return jsonify({'result': result})
 
 @cam_controller_bp.route('/stop', methods=['GET'])
 def handle_stop_cam():
-    return jsonify({'result': stop_cam()})
+    result = stop_cam()
+    logger.debug(f"Received from uav_data: {update_uav_cam_status('off')}")
+    return jsonify({'result': result})
 
 @cam_controller_bp.route('/status', methods=['GET'])
 def handle_status_cam():
@@ -46,3 +50,6 @@ def exec_cmd(cmd):
     res = os.system(cmd)
     logger.debug(res)
     return res
+
+def update_uav_cam_status(status):
+    return (requests.post(url=uav_data_end, json={"cam_status": status})).json()
