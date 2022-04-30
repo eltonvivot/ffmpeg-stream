@@ -1,4 +1,3 @@
-from turtle import delay
 from flask import Blueprint, jsonify
 from config import uav_cname, ffmpeg_cmd, uav_cfile, uav_data_end
 import logging, os, time, requests
