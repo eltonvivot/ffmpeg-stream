@@ -3,7 +3,6 @@ version: '3'
 services:
   uav-cam:
     container_name: uav-cam
-    restart: always
     image: "jenssgb/rtspffmpeg:base"
     environment:
       - RTSP_PROTOCOLS=tcp
