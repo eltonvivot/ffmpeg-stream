@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from config import uav_cname, ffmpeg_cmd, uav_cfile, uav_data_end
+from config import uav_cname, ffmpeg_dcmd, uav_cfile, uav_data_end
 import logging, os, time, requests
 
 logger = logging.getLogger(__name__)
@@ -8,7 +8,7 @@ cam_controller_bp = Blueprint('uav_cam', '__name__', url_prefix='/uav_cam')
 
 @cam_controller_bp.route('/start', methods=['GET'])
 def handle_start_cam():
-    result = start_cam()
+    result = start_cam(ffmpeg_dcmd)
     logger.debug(f"Received from uav_data: {update_uav_cam_status('on')}")
     return jsonify({'result': result})
 
@@ -29,7 +29,7 @@ def is_cam_on():
     if uav_cname in ps: return True
     else: return False
 
-def start_cam(ffmpeg_cmd=ffmpeg_cmd):
+def start_cam(ffmpeg_cmd=ffmpeg_dcmd):
     if is_cam_on(): return 'UAV CAM is already ON.'
     exec_cmd(f"export FFMPEG_CMD={ffmpeg_cmd}")
     logger.info(f"Running UAV CAM with FFMPEG_CMD:\n\t{os.system('echo $FFMPEG_CMD')}")
