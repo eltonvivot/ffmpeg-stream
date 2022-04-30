@@ -49,7 +49,7 @@ def exec_cmd(cmd):
     logger.debug(f"cmd: {cmd}")
     res = os.system(cmd)
     logger.debug(res)
-    return res
+    return str(res)
 
 def update_uav_cam_status(status):
     return (requests.post(url=uav_data_end, json={"cam_status": status})).json()
