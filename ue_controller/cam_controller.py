@@ -33,7 +33,7 @@ def start_cam(ffmpeg_cmd=ffmpeg_dcmd):
     if is_cam_on(): return 'UAV CAM is already ON.'
     exec_cmd(f"export FFMPEG_CMD={ffmpeg_cmd}")
     logger.info(f"Running UAV CAM with FFMPEG_CMD:\n\t{os.system('echo $FFMPEG_CMD')}")
-    res = exec_cmd(f"docker-compose -f {uav_cfile} up --build {uav_cname}")
+    res = exec_cmd(f"docker-compose -f {uav_cfile} up -d --build {uav_cname}")
     time.sleep(3)
     if is_cam_on(): return 'UAV CAM started.'
     else: raise Exception(f"Failed to start UAV CAM.\nOutput: {res}")
