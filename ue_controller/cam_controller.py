@@ -26,7 +26,8 @@ def handle_status_cam():
 
 def is_cam_on():
     ps = exec_cmd(f"docker ps | grep '{uav_cname}'")
-    return uav_cname in ps
+    if uav_cname in ps: return True
+    else: return False
 
 def start_cam(ffmpeg_cmd=ffmpeg_cmd):
     if is_cam_on(): return 'UAV CAM is already ON.'
