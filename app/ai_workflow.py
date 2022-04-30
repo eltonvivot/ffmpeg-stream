@@ -43,7 +43,7 @@ def start_detection():
     try:
         triggered_stop = False
         stime = 0.0
-        results = {}
+        results = []
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
@@ -52,13 +52,17 @@ def start_detection():
                 threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
                 stime = datetime.timestamp(datetime.now())
             if 'person:' in line:
+                result={}
                 tc_rules = (requests.get(url=tc_control)).json()
                 dtime = datetime.timestamp(datetime.now()) - stime
-                logp = "Time: {:.2f}".format(dtime) + f" | AP:{(line.split(':')[1])[:4]}"
-                results['time'] = dtime
+                ap = (line.split(': ')[1])[:2]
+                logp = "Time: {:.2f}".format(dtime) + f" | AP:{ap}%"
+                result['time'] = dtime
+                result['ap'] = ap
                 for k, v in tc_rules.items():
-                    results[k] = v
+                    result[k] = v
                     logp+= f" | {k}:{v}"
+                results.append(result)
                 log_to_file(logp, od_results)
     except Exception:
             raise
