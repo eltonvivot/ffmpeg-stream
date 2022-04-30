@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+load_dotenv(dotenv_path='/root/ffmpeg-stream/ue_controller/config.env')
 
 # data files
 tc_rules = str(os.getenv("TC_RULES_FILE"))

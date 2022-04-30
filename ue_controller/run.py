@@ -10,7 +10,7 @@ if __name__ == '__main__':
     logger = logging.getLogger(__name__)
 
     # load env file
-    load_dotenv(dotenv_path='./config.env')
+    load_dotenv(dotenv_path='/root/ffmpeg-stream/ue_controller/config.env')
     
     app = Flask(__name__)
     # endpoints
