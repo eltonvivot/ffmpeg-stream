@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from dotenv import load_dotenv
 from tc_controller import tc_controller_bp
+from cam_controller import cam_controller_bp
 import logging, traceback
 
 if __name__ == '__main__':
@@ -14,6 +15,7 @@ if __name__ == '__main__':
     app = Flask(__name__)
     # endpoints
     app.register_blueprint(tc_controller_bp)
+    app.register_blueprint(cam_controller_bp)
 
     @app.errorhandler(Exception)
     def handle_errors(error):
