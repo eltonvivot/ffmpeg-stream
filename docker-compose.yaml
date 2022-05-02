@@ -11,7 +11,8 @@ services:
     volumes:
       - ./media/:/media
     network_mode: "host"
-    command: "${FFMPEG_CMD}"
+    command: "ffmpeg -re -stream_loop -1 -i /media/video1.mp4 -vf 'fps=3'  -b:v 100M  -maxrate 1000M -bufsize 50M -f rtsp rtsp://localhost:8554/compose-rtsp"
+    # command: "${FFMPEG_CMD}"
 
   rtsp-server:
     container_name: rtsp-server-base
