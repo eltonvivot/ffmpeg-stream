@@ -64,6 +64,7 @@ def start_detection():
                     logp+= f" | {k}:{v}"
                 results.append(result)
                 log_to_file(logp, od_results)
+        return results
     except Exception:
             raise
     finally:
