@@ -1,5 +1,5 @@
 # Simulates Object Detection rApp
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 from context import get, post
 from ai_workflow import start_detection, stop_detection
 import threading
@@ -19,8 +19,8 @@ def handle_uav_data():
 def handle_start_detection():
     # threading.Thread(target=start_detection).start()
     # threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
-    results = start_detection()
-    return jsonify({'result': results})
+    start_detection()
+    return jsonify({'result': g.results})
 
 @ai_app_bp.route('/ai_detection/stop', methods=['GET'])
 def handle_stop_detection():

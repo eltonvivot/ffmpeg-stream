@@ -1,5 +1,6 @@
 # Simulates AI/ML workflow
 from datetime import datetime
+from flask import g
 from config import ai_user, ai_passwd, ai_host, ai_port, ai_dtime, uav_cam, od_output, od_results, tc_control
 import paramiko, logging, time, os, threading, requests
 
@@ -26,6 +27,7 @@ def disconnect():
     global client
     if not client: logger.warning("Invalid connection.")
     else: client.close()
+    client = None
 
 # Starts AI Object Detection
 def start_detection():
@@ -43,7 +45,8 @@ def start_detection():
     try:
         triggered_stop = False
         stime = 0.0
-        results = []
+        count_time = 0.0
+        g.results = []
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
@@ -51,6 +54,9 @@ def start_detection():
             if 'Done!' in line and not triggered_stop:
                 threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
                 stime = datetime.timestamp(datetime.now())
+                count_time = datetime.timestamp(datetime.now())
+            # if (datetime.timestamp(datetime.now()) - count_time) >= 5.0:
+            #     pass
             if 'person:' in line:
                 result={}
                 tc_rules = (requests.get(url=tc_control)).json()
@@ -62,13 +68,13 @@ def start_detection():
                 for k, v in tc_rules.items():
                     result[k] = v
                     logp+= f" | {k}:{v}"
-                results.append(result)
+                g.results.append(result)
                 log_to_file(logp, od_results)
-        return results
+        return g.results
     except Exception:
             raise
     finally:
-        if client: client.close()
+        disconnect()
 
 # Stops AI Object Detection after given seconds
 def stop_detection(seconds=0):
