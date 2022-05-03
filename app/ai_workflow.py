@@ -129,7 +129,7 @@ def plot_figure(should_save, should_display, results):
     ax.set_ylabel('', fontsize=15, fontfamily='Arial')
     ax.set_xlabel('Time (sec)', fontsize=15, fontfamily='Arial')
     ax.legend(loc='upper left', fontsize=11)
-    ax.set_title(f"Object Detection with network bandwidth at {results[0]['rate']}")
+    # ax.set_title(f"Object Detection with network bandwidth at {results[0]['rate']}")
 
     if should_save:
         plt.savefig(f"{gc_folder}result_{int(datetime.timestamp(datetime.now()))}.pdf", bbox_inches='tight')
