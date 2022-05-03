@@ -21,13 +21,14 @@ def handle_uav_data():
         return jsonify({'result': 'Rules deleted.'})
 
 def create_rules(rules):
-    tc_cmd = f"tcset {if_name} "
+    tc_cmd = f"tcset {if_name}"
     if 'delay' in rules:
-        tc_cmd += f"--delay {rules['delay']} "
+        tc_cmd += f" --delay {rules['delay']} "
     if 'rate' in rules:
-        tc_cmd += f"--rate {rules['rate']} "
+        tc_cmd += f" --rate {rules['rate']}"
     if 'loss' in rules:
-        tc_cmd += f"--loss {rules['loss']} "
+        tc_cmd += f" --loss {rules['loss']}"
+    tc_cmd += " --overwrite"
     logger.info(f"Executing command '{tc_cmd}'")
     logger.debug(os.system(tc_cmd))
 
