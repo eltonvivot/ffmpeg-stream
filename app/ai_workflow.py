@@ -117,10 +117,11 @@ def plot_figure(should_save, should_display, results):
     #                  color=color5, marker='o', markersize=4)
     
     
-    plt.xticks([0, 5, 10, 15, 20, 25, 30, 35])
+    # plt.xticks([0, 5, 10, 15, 20, 25, 30])
+    plt.xticks([0, 5, 10, 15, 20])
 
-    # plt.yticks([1.5, 2.0, 2.5, 3.0, 3.5])
-    plt.yticks([0, 40, 100, 200, 350])
+    # plt.yticks([0, 40, 100, 200, 350])
+    plt.yticks([0, 25, 50, 75, 100])
     ax.tick_params(axis='y', which='major', labelsize=15)
     ax.tick_params(axis='x', which='major', labelsize=15)
     ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
