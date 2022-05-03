@@ -4,3 +4,4 @@ imutils
 paramiko
 Flask
 requests 
+matplotlib

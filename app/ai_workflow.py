@@ -1,9 +1,10 @@
 # Simulates AI/ML workflow
 from datetime import datetime
 from flask import g
-from config import ai_user, ai_passwd, ai_host, ai_port, ai_dtime, uav_cam, od_output, od_results, tc_control
+from config import ai_user, ai_passwd, ai_host, ai_port, ai_dtime, uav_cam, od_output, od_results, tc_control, gc_folder
 import paramiko, logging, time, os, threading, requests
-
+import matplotlib.pylab as plt 
+ 
 logger = logging.getLogger(__name__)
 logging.getLogger("paramiko").setLevel(logging.WARNING)
 client = None
@@ -51,13 +52,17 @@ def start_detection():
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
             log_to_file(line.rstrip("\n"), od_output)
-            if 'Done!' in line and not triggered_stop:
-                threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
-                stime = datetime.timestamp(datetime.now())
-                count_time = datetime.timestamp(datetime.now())
+            # if 'Done!' in line and not triggered_stop:
+            #     threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
+            #     stime = datetime.timestamp(datetime.now())
+            #     count_time = datetime.timestamp(datetime.now())
             # if (datetime.timestamp(datetime.now()) - count_time) >= 5.0:
             #     pass
             if 'person:' in line:
+                if not triggered_stop:
+                    threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
+                    stime = datetime.timestamp(datetime.now()) - 1
+                    count_time = stime
                 result={}
                 tc_rules = (requests.get(url=tc_control)).json()
                 dtime = datetime.timestamp(datetime.now()) - stime
@@ -83,6 +88,49 @@ def stop_detection(seconds=0):
 
 def log_to_file(string, file):
     os.system(f"echo '{string}' >> {file}")
+
+def plot_figure(should_save, should_display, results):
+    # def open_results():
+    #     import json
+    #     with open('/home/elton/Repositories/ffmpeg-stream/data/results.json', 'r') as cfile:
+    #         return json.load(cfile)
+    # if not results: results = open_results()
+
+    fig, ax = plt.subplots(figsize=(7, 3))
+    color1 = 'tab:blue'
+    color2 = 'tab:orange'
+    color3 = 'tab:green'
+    color4 = 'tab:red'
+    color5 = 'tab:purple'
+    
+    times = [result['time'] for result in results]
+
+    line6, = ax.plot(times, [int(result['ap']) for result in results], label="Person's Average Precision (%)",
+                     color=color1, marker='o', markersize=4)
+    line7, = ax.plot(times, [int(result['delay']) for result in results], label="UE network latency (ms)",
+                     color=color2, marker='o', markersize=4)
+    # line8, = ax.plot(times, [int(result['rate']) for result in results], label="UE network bandwidth (Mbps)",
+    #                  color=color3, marker='o', markersize=4)
+    line9, = ax.plot(times, [result['loss'] for result in results], label="UE network packet loss (%)",
+                     color=color4, marker='o', markersize=4)
+    # line0, = ax.plot(times, [i * 3.6 for i in Cons_anel_n5_l1], label='H2 Root',
+    #                  color=color5, marker='o', markersize=4)
+    
+    
+    plt.xticks([0, 5, 10, 15, 20, 25, 30, 35])
+
+    # plt.yticks([1.5, 2.0, 2.5, 3.0, 3.5])
+    plt.yticks([0, 40, 100, 200, 350])
+    ax.tick_params(axis='y', which='major', labelsize=15)
+    ax.tick_params(axis='x', which='major', labelsize=15)
+    ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
+    ax.set_ylabel('', fontsize=15, fontfamily='Arial')
+    ax.set_xlabel('Seconds (s)', fontsize=15, fontfamily='Arial')
+    ax.legend(loc='upper left', fontsize=11)
+    if should_save:
+        plt.savefig(f"{gc_folder}result_{int(datetime.timestamp(datetime.now()))}.pdf", bbox_inches='tight')
+    if should_display:
+        plt.show()
 
 # # Simulates a request for more bandwidth
 # def require_bandwidth(message = ''):

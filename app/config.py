@@ -8,6 +8,9 @@ odata = str(os.getenv("O1_DATA_FILE"))
 od_output = str(os.getenv("OBJECT_DETECTION_OUTPUT_FILE"))
 od_results = str(os.getenv("OBJECT_DETECTION_RESULTS_FILE"))
 
+# Graphics folder container dir
+gc_folder = str(os.getenv("GRAPHICS_FOLDER_CONTAINER_DIR"))
+
 # AI ssh config
 ai_user = str(os.getenv("AI_SSH_USER"))
 ai_passwd = str(os.getenv("AI_SSH_PASSWORD"))
