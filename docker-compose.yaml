@@ -31,4 +31,5 @@ services:
     volumes:
      - ./app:/app  
      - ./data:/data  
+     - ./graphics:/graphics  
     network_mode: "host"
