@@ -113,9 +113,9 @@ def plot_figure(should_save, should_display, results):
     # line8, = ax.plot(times, [int((result['rate'][:-4])) for result in results], label="UE network bandwidth (Mbps)",
     #                  color=color3, marker='o', markersize=4)
     line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results], label="UE network packet loss (%)",
-                     color=color4, marker='o', markersize=3, linewidth=0)
+                     color=color5, marker='o', markersize=3, linewidth=0)
     # line0, = ax.plot(times, [i * 3.6 for i in Cons_anel_n5_l1], label='H2 Root',
-    #                  color=color5, marker='o', markersize=4)
+    #                  color=color4, marker='o', markersize=4)
     
     
     # plt.xticks([0, 5, 10, 15, 20, 25, 30])
