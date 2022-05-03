@@ -106,13 +106,13 @@ def plot_figure(should_save, should_display, results):
     
     times = [result['time'] for result in results]
 
-    line6, = ax.plot(times, [int(result['ap']) for result in results], label="Person's Average Precision (%)",
+    line6, = ax.scatter(times, [int(result['ap']) for result in results], label="Person's Average Precision (%)",
                      color=color1, marker='o', markersize=4)
-    line7, = ax.plot(times, [int((result['delay'])[:-2]) for result in results], label="UE network latency (ms)",
+    line7, = ax.scatter(times, [int((result['delay'])[:-2]) for result in results], label="UE network latency (ms)",
                      color=color2, marker='o', markersize=4)
     # line8, = ax.plot(times, [int((result['rate'][:-4])) for result in results], label="UE network bandwidth (Mbps)",
     #                  color=color3, marker='o', markersize=4)
-    line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results], label="UE network packet loss (%)",
+    line9, = ax.scatter(times, [float((result['loss'])[:-1]) for result in results], label="UE network packet loss (%)",
                      color=color4, marker='o', markersize=4)
     # line0, = ax.plot(times, [i * 3.6 for i in Cons_anel_n5_l1], label='H2 Root',
     #                  color=color5, marker='o', markersize=4)
