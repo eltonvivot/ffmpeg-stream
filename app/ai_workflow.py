@@ -60,6 +60,7 @@ def start_detection():
             #     pass
             if 'person:' in line:
                 if not triggered_stop:
+                    triggered_stop = True
                     threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
                     stime = datetime.timestamp(datetime.now()) - 1
                     count_time = stime
