@@ -113,18 +113,18 @@ def plot_figure(should_save, should_display, results):
     
     times = [result['time'] for result in results]
 
-    line6, = ax.plot(times, [int(result['ap']) for result in results], label="Person's Average Precision (%)",
+    line6, = ax.plot(times, [int(result['ap']) for result in results], #label="Person's Average Precision (%)",
                      color=color1, marker='o', markersize=3, linewidth=0)
-    line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results], label="UE latency (ms)",
+    line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results], #label="UE latency (ms)",
                      color=color2, marker='o', markersize=3)
     rates = []
     for result in results:
         r = float((result['rate'][:-4]))
         if r == 500: r = 110
         rates.append(r)
-    line8, = ax.plot(times, rates, label="UE bandwidth (Mbps)",
+    line8, = ax.plot(times, rates, #label="UE bandwidth (Mbps)",
                      color=color3, marker='o', markersize=3)
-    line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results], label="UE packet loss (%)",
+    line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results], #label="UE packet loss (%)",
                      color=color5, marker='o', markersize=3)
     # line0, = ax.plot(times, [i * 3.6 for i in Cons_anel_n5_l1], label='H2 Root',
     #                  color=color4, marker='o', markersize=4)
