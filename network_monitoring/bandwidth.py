@@ -23,4 +23,4 @@ while True:
     last_sent = bytes_sent
     last_total = bytes_total
 
-    time.sleep(0.5)
+    time.sleep(1)
