@@ -6,3 +6,4 @@ Flask
 tcconfig
 python-dotenv
 requests 
+psutil

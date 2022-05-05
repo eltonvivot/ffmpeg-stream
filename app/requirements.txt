@@ -5,3 +5,4 @@ paramiko
 Flask
 requests 
 matplotlib
+psutil
