@@ -15,11 +15,11 @@ def handle_uav_data():
         post(cdata, request.get_json())
         return jsonify(get(cdata))
 
-@ai_app_bp.route('/ai_detection/start', methods=['GET'])
+@ai_app_bp.route('/ai_detection/start', methods=['POST'])
 def handle_start_detection():
     # threading.Thread(target=start_detection).start()
     # threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
-    start_detection()
+    start_detection(request.get_json())
     plot_figure(True, False, g.results)
     return jsonify({'result': g.results})
 

@@ -31,7 +31,7 @@ def disconnect():
     client = None
 
 # Starts AI Object Detection
-def start_detection():
+def start_detection(tc_new_rules):
     global client
     # Check if already have connections
     if client: logger.warning("Object Detection is already running.") 
@@ -46,7 +46,6 @@ def start_detection():
     try:
         triggered_stop = False
         stime = 0.0
-        count_time = 0.0
         g.results = []
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
@@ -56,14 +55,16 @@ def start_detection():
             #     threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
             #     stime = datetime.timestamp(datetime.now())
             #     count_time = datetime.timestamp(datetime.now())
-            # if (datetime.timestamp(datetime.now()) - count_time) >= 5.0:
-            #     pass
+            if (datetime.timestamp(datetime.now()) - stime) >= 5.0 and triggered_stop:
+                update_uav_tc_rules(tc_new_rules)
+            if (datetime.timestamp(datetime.now()) - stime) >= 13.0 and triggered_stop:
+                tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
+                update_uav_tc_rules(tc_best_rules)
             if 'person:' in line:
                 if not triggered_stop:
                     triggered_stop = True
                     threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
                     stime = datetime.timestamp(datetime.now())
-                    count_time = stime
                 result={}
                 tc_rules = (requests.get(url=tc_control)).json()
                 dtime = datetime.timestamp(datetime.now()) - stime
@@ -109,11 +110,11 @@ def plot_figure(should_save, should_display, results):
     line6, = ax.plot(times, [int(result['ap']) for result in results], label="Person's Average Precision (%)",
                      color=color1, marker='o', markersize=3, linewidth=0)
     line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results], label="UE network latency (ms)",
-                     color=color2, marker='o', markersize=3, linewidth=0)
-    # line8, = ax.plot(times, [int((result['rate'][:-4])) for result in results], label="UE network bandwidth (Mbps)",
-    #                  color=color3, marker='o', markersize=4)
+                     color=color2, marker='o', markersize=3)
+    line8, = ax.plot(times, [int((result['rate'][:-4])) for result in results], label="10%% of UE network bandwidth (Mbps)",
+                     color=color3, marker='o', markersize=3)
     line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results], label="UE network packet loss (%)",
-                     color=color5, marker='o', markersize=3, linewidth=0)
+                     color=color5, marker='o', markersize=3)
     # line0, = ax.plot(times, [i * 3.6 for i in Cons_anel_n5_l1], label='H2 Root',
     #                  color=color4, marker='o', markersize=4)
     
@@ -135,6 +136,10 @@ def plot_figure(should_save, should_display, results):
         plt.savefig(f"{gc_folder}result_{int(datetime.timestamp(datetime.now()))}.pdf", bbox_inches='tight')
     if should_display:
         plt.show()
+
+def update_uav_tc_rules(rules):
+    logger.debug(rules)
+    return (requests.post(url=tc_control, json=rules)).json()
 
 # # Simulates a request for more bandwidth
 # def require_bandwidth(message = ''):
