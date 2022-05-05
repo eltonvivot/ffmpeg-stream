@@ -134,7 +134,7 @@ def plot_figure(should_save, should_display, results):
     plt.xticks([0, 5, 10, 15, 20])
 
     # plt.yticks([0, 40, 100, 200, 350])
-    plt.yticks([0, 25, 50, 75, 100, 125])
+    plt.yticks([0, 25, 50, 75, 100])
     ax.tick_params(axis='y', which='major', labelsize=15)
     ax.tick_params(axis='x', which='major', labelsize=15)
     ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
