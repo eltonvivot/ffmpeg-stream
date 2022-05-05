@@ -114,9 +114,9 @@ def plot_figure(should_save, should_display, results):
     times = [result['time'] for result in results]
 
     line6, = ax.plot(times, [int(result['ap']) for result in results], #label="Person's Average Precision (%)",
-                     color=color1, marker='o', markersize=3, linewidth=0)
+                     color=color1, marker='o', markersize=4, linewidth=0)
     line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results], #label="UE latency (ms)",
-                     color=color2, marker='o', markersize=3)
+                     color=color2, marker='o', markersize=3, linewidth=3)
     rates = []
     for result in results:
         r = float((result['rate'][:-4]))
