@@ -63,8 +63,8 @@ def start_detection(tc_new_rules):
             if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
                 added_new_rule = True
                 update_uav_tc_rules(tc_new_rules)
-                added_new_rule['time'] = datetime.timestamp(datetime.now()) - stime
-                g.results.append(added_new_rule)
+                tc_new_rules['time'] = datetime.timestamp(datetime.now()) - stime
+                g.results.append(tc_new_rules)
             if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
                 added_best_rule = True
                 tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
