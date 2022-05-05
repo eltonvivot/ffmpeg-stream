@@ -116,7 +116,7 @@ def plot_figure(should_save, should_display, results):
                      color=color1, marker='o', markersize=3, linewidth=0)
     line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results], label="UE network latency (ms)",
                      color=color2, marker='o', markersize=3)
-    line8, = ax.plot(times, [int((result['rate'][:-4])) for result in results], label="10%% of UE network bandwidth (Mbps)",
+    line8, = ax.plot(times, [float((result['rate'][:-4])) for result in results], label="10%% of UE network bandwidth (Mbps)",
                      color=color3, marker='o', markersize=3)
     line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results], label="UE network packet loss (%)",
                      color=color5, marker='o', markersize=3)
