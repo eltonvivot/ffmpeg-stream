@@ -140,7 +140,7 @@ def plot_figure(should_save, should_display, results):
     ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
     ax.set_ylabel('', fontsize=15, fontfamily='Arial')
     ax.set_xlabel('', fontsize=15, fontfamily='Arial')
-    ax.legend(loc='upper left', fontsize=11)
+    # ax.legend(loc='upper left', fontsize=11)
     # ax.set_title(f"Object Detection with network bandwidth at {results[0]['rate']}")
 
     if should_save:
