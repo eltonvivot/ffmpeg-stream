@@ -119,7 +119,7 @@ def plot_figure(should_save, should_display, results):
     times = [result['time'] for result in results]
     aps = []
     for result in results:
-        if 'time' in result: aps.append(int(result['ap']))
+        if 'ap' in result: aps.append(int(result['ap']))
     
     line6, = ax.plot(times, aps, label="Person's Average Precision (%)",
                      color=color1, marker='o', markersize=4, linewidth=0)
