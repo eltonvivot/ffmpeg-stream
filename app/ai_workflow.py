@@ -146,12 +146,12 @@ def plot_figure(should_save, should_display, results):
 
     # plt.yticks([0, 40, 100, 200, 350])
     plt.yticks([0, 25, 50, 75, 100])
-    ax.tick_params(axis='y', which='major', labelsize=14)
-    ax.tick_params(axis='x', which='major', labelsize=14)
+    ax.tick_params(axis='y', which='major', labelsize=13)
+    ax.tick_params(axis='x', which='major', labelsize=13)
     ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
     ax.set_ylabel('', fontsize=14, fontfamily='Arial')
-    ax.set_xlabel('Object Detection Duration (sec)', fontsize=14, fontfamily='Arial')
-    # ax.legend(loc='upper left', fontsize=11)
+    ax.set_xlabel('Object Detection Duration (sec)', fontsize=13, fontfamily='Arial')
+    ax.legend(loc='upper left', fontsize=11)
     # ax.set_title(f"Object Detection with network bandwidth at {results[0]['rate']}")
 
     if should_save:
