@@ -50,6 +50,7 @@ def start_detection(tc_new_rules):
         added_new_rule = False
         added_best_rule = False
         stime = 0.0
+        last_rule = {}
         g.results = []
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
@@ -62,10 +63,14 @@ def start_detection(tc_new_rules):
             if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
                 added_new_rule = True
                 update_uav_tc_rules(tc_new_rules)
+                added_new_rule['time'] = datetime.timestamp(datetime.now()) - stime
+                g.results.append(added_new_rule)
             if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
                 added_best_rule = True
                 tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
                 update_uav_tc_rules(tc_best_rules)
+                tc_best_rules['time'] = datetime.timestamp(datetime.now()) - stime
+                g.results.append(tc_best_rules)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
                 threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
