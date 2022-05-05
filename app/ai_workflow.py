@@ -58,17 +58,17 @@ def start_detection(tc_new_rules):
             #     threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
             #     stime = datetime.timestamp(datetime.now())
             #     count_time = datetime.timestamp(datetime.now())
-            if (datetime.timestamp(datetime.now()) - stime) >= 5.0 and triggered_stop and not added_new_rule:
+            if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
                 added_new_rule = True
                 update_uav_tc_rules(tc_new_rules)
-            if (datetime.timestamp(datetime.now()) - stime) >= 13.0 and triggered_stop and not added_best_rule:
+            if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
                 added_best_rule = True
                 tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
                 update_uav_tc_rules(tc_best_rules)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
-                threading.Thread(target=stop_detection, args=(ai_dtime,)).start()
-                stime = datetime.timestamp(datetime.now())
+                threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
+                stime = datetime.timestamp(datetime.now()) +3
             if 'person:' in line:
                 result={}
                 tc_rules = (requests.get(url=tc_control)).json()
