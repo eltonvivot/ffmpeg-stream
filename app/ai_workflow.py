@@ -116,20 +116,23 @@ def plot_figure(should_save, should_display, results):
     color4 = 'tab:red'
     color5 = 'tab:purple'
     
-    times = [result['time'] for result in results]
+    times = []
     aps = []
-    for result in results:
-        if 'ap' in result: aps.append(int(result['ap']))
-    
-    line6, = ax.plot(times, aps, label="Person's Average Precision (%)",
-                     color=color1, marker='o', markersize=4, linewidth=0)
-    line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results], label="UE latency (ms)",
-                     color=color2, marker='o', markersize=3, linewidth=3)
+    aps_time = []
     rates = []
     for result in results:
+        times.append(result['time'])
+        if 'ap' in result: 
+            aps.append(int(result['ap']))
+            aps_time.append(result['time'])
         r = float((result['rate'][:-4]))
         if r == 500: r = 120
         rates.append(r)
+    
+    line6, = ax.plot(aps_time, aps, label="Person's Average Precision (%)",
+                     color=color1, marker='o', markersize=4, linewidth=0)
+    line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results], label="UE latency (ms)",
+                     color=color2, marker='o', markersize=3, linewidth=3)
     line8, = ax.plot(times, rates, label="UE bandwidth (Mbps)",
                      color=color3, marker='o', markersize=3)
     line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results], label="UE packet loss (%)",
