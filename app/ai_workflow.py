@@ -2,6 +2,7 @@
 from datetime import datetime
 from re import T
 from flask import g
+from numpy import rate
 from config import ai_user, ai_passwd, ai_host, ai_port, ai_dtime, uav_cam, od_output, od_results, tc_control, gc_folder
 import paramiko, logging, time, os, threading, requests
 import matplotlib.pylab as plt 
@@ -116,7 +117,12 @@ def plot_figure(should_save, should_display, results):
                      color=color1, marker='o', markersize=3, linewidth=0)
     line7, = ax.plot(times, [float((result['delay'])[:-2]) for result in results],# label="UE network latency (ms)",
                      color=color2, marker='o', markersize=3)
-    line8, = ax.plot(times, [float((result['rate'][:-4]))/5 for result in results],# label="1/5 of UE network bandwidth (Mbps)",
+    rates = []
+    for result in results:
+        r = float((result['rate'][:-4]))
+        if r == 500: r = 125
+        rates.append(r)
+    line8, = ax.plot(times, rates,# label="1/5 of UE network bandwidth (Mbps)",
                      color=color3, marker='o', markersize=3)
     line9, = ax.plot(times, [float((result['loss'])[:-1]) for result in results],# label="UE network packet loss (%)",
                      color=color5, marker='o', markersize=3)
@@ -128,7 +134,7 @@ def plot_figure(should_save, should_display, results):
     plt.xticks([0, 5, 10, 15, 20])
 
     # plt.yticks([0, 40, 100, 200, 350])
-    plt.yticks([0, 25, 50, 75, 100])
+    plt.yticks([0, 25, 50, 75, 100, 125])
     ax.tick_params(axis='y', which='major', labelsize=15)
     ax.tick_params(axis='x', which='major', labelsize=15)
     ax.yaxis.grid(color='gray', linestyle='--', linewidth=0.5)
