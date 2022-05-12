@@ -1,6 +1,7 @@
 # Simulates AI/ML workflow
 from datetime import datetime
 from flask import g
+from matplotlib.pyplot import xlim
 from config import ai_user, ai_passwd, ai_host, ai_port, ai_dtime, uav_cam, od_output, od_results, tc_control, gc_folder
 import paramiko, logging, time, os, threading, requests, random
 import matplotlib.pylab as plt 
@@ -295,6 +296,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[0,1].annotate('Bandwidth increased', xy=(g.inc_time[second_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
 
     # plt.xlim([0, 20])
+    plt.setp(axes, xlim=(0, 20))
 
     if should_save:
         plt.savefig(f"{gc_folder}result_{int(datetime.timestamp(datetime.now()))}.pdf", bbox_inches='tight')

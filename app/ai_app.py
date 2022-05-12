@@ -23,7 +23,7 @@ def handle_start_detection():
     first_name = 'first'
     second_name = 'second'
     start_detection(first_name, True, False)
-    time.sleep(20)
+    time.sleep(40)
     start_detection(second_name, False, True)
     # new plot
     plot_figures(True, False, first_name, second_name)
