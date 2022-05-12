@@ -92,8 +92,8 @@ def auto_rules(change_rate, change_loss, stime, timeout=ai_dtime+3, delay=0):
 
 
 # Starts AI Object Detection
-def start_detection(tc_new_rules, change_rate, change_loss):
-    logger.debug(f"NEW RULES {tc_new_rules}")
+def start_detection(change_rate, change_loss):
+    #logger.debug(f"NEW RULES {tc_new_rules}")
     global client
     # Check if already have connections
     if client: logger.warning("Object Detection is already running.") 

@@ -8,9 +8,9 @@ def start(args):
     if args.delay: data['delay'] = args.delay
     if args.rate: data['rate'] = args.rate
     if args.loss: data['loss'] = args.loss
-    if data == {}:
-        print("You must inform at least one option of [rate | delay | loss].")
-        return
+    # if data == {}:
+    #     print("You must inform at least one option of [rate | delay | loss].")
+    #     return
     print(f"Data:\n{data}")
     r = requests.post(url=f"{API_ENDPOINT}/start", json=data)
     # r = requests.get(url=f"{API_ENDPOINT}/start")

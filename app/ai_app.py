@@ -21,11 +21,11 @@ def handle_start_detection():
     g.inc_time = {}
     g.dec_time = {}
     g.detection_name = 'first'
-    start_detection(request.get_json(), True, False)
+    start_detection(True, False)
     first_name = g.detection_name
     g.detection_name = 'second'
     time.sleep(20)
-    start_detection(request.get_json(), False, True)
+    start_detection(False, True)
     # new plot
     plot_figures(True, False, first_name, g.detection_name)
     return jsonify({'result': "Ok."})
