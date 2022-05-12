@@ -78,7 +78,7 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
                 max_loss = 2.5
                 min_loss = 0.0
 
-        time.sleep(1)
+        time.sleep(random.uniform(0.7, 1.8))
         # random
         rules = {}
         rules['rate'] = f"{random.uniform(lrate-30 if lrate-30 > min_rate else min_rate, lrate+30 if lrate+30 < max_rate else max_rate)}Mbps"
