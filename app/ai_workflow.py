@@ -63,9 +63,9 @@ def start_detection(tc_new_rules):
             if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
                 added_new_rule = True
                 update_uav_tc_rules(tc_new_rules)
-                if 'delay' in tc_new_rules: tc_new_rules['delay'] = float(tc_new_rules['delay'][:-2])
-                if 'rate' in tc_new_rules: tc_new_rules['rate'] = float(tc_new_rules['rate'][:-4])
-                if 'loss' in tc_new_rules: tc_new_rules['loss'] = float(tc_new_rules['loss'][:-1])
+                if 'delay' in tc_new_rules: tc_new_rules['delay'] = tc_new_rules['delay'][:-2]
+                if 'rate' in tc_new_rules: tc_new_rules['rate'] = tc_new_rules['rate'][:-4]
+                if 'loss' in tc_new_rules: tc_new_rules['loss'] = tc_new_rules['loss'][:-1]
                 tc_new_rules['time'] = datetime.timestamp(datetime.now()) - stime
                 g.results.append(tc_new_rules)
             if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
@@ -87,9 +87,9 @@ def start_detection(tc_new_rules):
                 # format values type
                 result['time'] = dtime
                 result['ap'] = int(ap)
-                if 'delay' in tc_rules: result['delay'] = float(tc_rules['delay'][:-2])
-                if 'rate' in tc_rules: result['rate'] = float(tc_rules['rate'][:-4])
-                if 'loss' in tc_rules: result['loss'] = float(tc_rules['loss'][:-1])
+                if 'delay' in tc_rules: result['delay'] = tc_rules['delay'][:-2]
+                if 'rate' in tc_rules: result['rate'] = tc_rules['rate'][:-4]
+                if 'loss' in tc_rules: result['loss'] = tc_rules['loss'][:-1]
 
                 g.results.append(result)
                 log_to_file(logp, od_results)
