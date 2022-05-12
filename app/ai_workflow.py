@@ -296,7 +296,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[0,1].annotate('Bandwidth increased', xy=(g.inc_time[second_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
 
     # plt.xlim([0, 20])
-    plt.setp(axes, xlim=(0, 20))
+    plt.setp(axes, xlim=(0, ai_dtime))
 
     if should_save:
         plt.savefig(f"{gc_folder}result_{int(datetime.timestamp(datetime.now()))}.pdf", bbox_inches='tight')
