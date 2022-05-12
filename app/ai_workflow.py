@@ -65,8 +65,8 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
             if change_rate:
-                max_rate = 12
-                min_rate = 4
+                max_rate = 10
+                min_rate = 2
             if change_loss:
                 max_loss = 35.0
                 min_loss = 20.0
