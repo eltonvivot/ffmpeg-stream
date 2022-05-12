@@ -227,10 +227,10 @@ def plot_figures(should_save, should_display, first_name, second_name):
     results1.sort_values(by=['time'], inplace=True)
     results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
     results2.sort_values(by=['time'], inplace=True)
-    g.dec_time[first_name]+=3
-    g.inc_time[first_name]+=3
-    g.dec_time[second_name]+=3
-    g.inc_time[second_name]+=3
+    g.dec_time[first_name]+=4
+    g.inc_time[first_name]+=4
+    g.dec_time[second_name]+=4
+    g.inc_time[second_name]+=4
 
     # creates graphic
     sns.set_context('paper', font_scale=1.5)
