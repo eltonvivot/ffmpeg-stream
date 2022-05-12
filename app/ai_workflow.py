@@ -34,6 +34,7 @@ def disconnect():
 
 # Starts AI Object Detection
 def start_detection(tc_new_rules):
+    logger.debug(f"NEW RULES {tc_new_rules}")
     global client
     # Check if already have connections
     if client: logger.warning("Object Detection is already running.") 
@@ -162,8 +163,8 @@ def plot_figure(should_save, should_display, results):
         plt.show()
 
 def update_uav_tc_rules(rules, stime):
-    logger.debug(rules)
-    logger.debug((requests.post(url=tc_control, json=rules)).json())
+    logger.debug(f"Applying: {rules}")
+    logger.debug(f"Result: {(requests.post(url=tc_control, json=rules)).json()}")
     if 'delay' in rules: rules['delay'] = float(rules['delay'][:-2])
     if 'rate' in rules: rules['rate'] = float(rules['rate'][:-4])
     if 'loss' in rules: rules['loss'] = float(rules['loss'][:-1])
