@@ -274,12 +274,12 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[3,1].legend(loc='upper left')
 
     # Adds vertical lines
-    # for i in range(4):
-    #     axes[i, 0].axvline(g.inc_time[first_name],linestyle ="dotted", color='tab:gray')
-    #     axes[i, 0].axvline(g.dec_time[first_name],linestyle ="dotted", color='tab:gray')
+    for i in range(4):
+        axes[i, 0].axvline(g.inc_time[first_name],linestyle ="dotted", color='tab:gray')
+        axes[i, 0].axvline(g.dec_time[first_name],linestyle ="dotted", color='tab:gray')
 
-    #     axes[i, 1].axvline(g.inc_time[second_name],linestyle ="dotted", color='tab:gray')
-    #     axes[i, 1].axvline(g.dec_time[second_name],linestyle ="dotted", color='tab:gray')
+        axes[i, 1].axvline(g.inc_time[second_name],linestyle ="dotted", color='tab:gray')
+        axes[i, 1].axvline(g.dec_time[second_name],linestyle ="dotted", color='tab:gray')
 
     # titles
     axes[0,0].set_title('(a) Bandwidth decrease')
@@ -290,9 +290,9 @@ def plot_figures(should_save, should_display, first_name, second_name):
     # axes[0,0].annotate('Iperf Iniciado', xy=('2022/01/17 23:29:38',100), xytext=(0, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="center")
     axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
 
-    axes[0,1].annotate('Bandwidth decreased', xy=(g.dec_time[second_name],100), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="right")
+    axes[0,1].annotate('Package loss increased', xy=(g.dec_time[second_name],100), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="right")
     # axes[0,0].annotate('Iperf Iniciado', xy=('2022/01/17 23:29:38',100), xytext=(0, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="center")
-    axes[0,1].annotate('Bandwidth increased', xy=(g.inc_time[second_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
+    axes[0,1].annotate('Package loss decreased', xy=(g.inc_time[second_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
 
     # plt.xlim([0, 20])
     plt.setp(axes, xlim=(0, ai_dtime))
