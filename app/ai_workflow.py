@@ -226,7 +226,9 @@ def plot_figures(should_save, should_display, first_name, second_name):
     # logger.debug(f"RESULT 1 ---------------------\n{g.results[first_name]}\n")
     # logger.debug(f"RESULT 2 ---------------------\n{g.results[second_name]}\n")
     results1 = pd.DataFrame(g.results[first_name] + tc_results[first_name])
+    results1.sort_values(by=['time'], inplace=True)
     results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
+    results2.sort_values(by=['time'], inplace=True)
 
     # creates graphic
     sns.set_context('paper', font_scale=1.5)
