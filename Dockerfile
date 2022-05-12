@@ -1,6 +1,6 @@
 FROM python:3.8-slim-buster
 
-RUN apt-get update && apt-get install python3-matplotlib -y && apt-get clean
+RUN apt-get update && apt-get install python3-matplotlib python3-pandas -y && apt-get clean
 
 WORKDIR /app
 
