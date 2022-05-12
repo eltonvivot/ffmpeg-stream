@@ -62,21 +62,11 @@ def start_detection(tc_new_rules):
             #     count_time = datetime.timestamp(datetime.now())
             if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
                 added_new_rule = True
-                update_uav_tc_rules(tc_new_rules)
-                if 'delay' in tc_new_rules: tc_new_rules['delay'] = float(tc_new_rules['delay'][:-2])
-                if 'rate' in tc_new_rules: tc_new_rules['rate'] = float(tc_new_rules['rate'][:-4])
-                if 'loss' in tc_new_rules: tc_new_rules['loss'] = float(tc_new_rules['loss'][:-1])
-                tc_new_rules['time'] = datetime.timestamp(datetime.now()) - stime
-                g.results.append(tc_new_rules)
+                update_uav_tc_rules(tc_new_rules, stime)
             if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
                 added_best_rule = True
                 tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
-                update_uav_tc_rules(tc_best_rules)
-                if 'delay' in tc_new_rules: tc_new_rules['delay'] = float(tc_new_rules['delay'][:-2])
-                if 'rate' in tc_new_rules: tc_new_rules['rate'] = float(tc_new_rules['rate'][:-4])
-                if 'loss' in tc_new_rules: tc_new_rules['loss'] = float(tc_new_rules['loss'][:-1])
-                tc_best_rules['time'] = datetime.timestamp(datetime.now()) - stime
-                g.results.append(tc_best_rules)
+                update_uav_tc_rules(tc_best_rules, stime)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
                 threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
@@ -90,7 +80,7 @@ def start_detection(tc_new_rules):
                 # format values type
                 result['time'] = dtime
                 result['ap'] = int(ap)
-                logger.debug(tc_rules)
+                logger.debug("Current Rule: " + tc_rules)
                 if 'delay' in tc_rules: 
                     result['delay'] = float(tc_rules['delay'][:-2])
                 if 'rate' in tc_rules: 
@@ -171,9 +161,14 @@ def plot_figure(should_save, should_display, results):
     if should_display:
         plt.show()
 
-def update_uav_tc_rules(rules):
+def update_uav_tc_rules(rules, stime):
     logger.debug(rules)
-    return (requests.post(url=tc_control, json=rules)).json()
+    logger.debug((requests.post(url=tc_control, json=rules)).json())
+    if 'delay' in rules: rules['delay'] = float(rules['delay'][:-2])
+    if 'rate' in rules: rules['rate'] = float(rules['rate'][:-4])
+    if 'loss' in rules: rules['loss'] = float(rules['loss'][:-1])
+    rules['time'] = datetime.timestamp(datetime.now()) - stime
+    g.results.append(rules)
 
 # # Simulates a request for more bandwidth
 # def require_bandwidth(message = ''):
