@@ -88,11 +88,11 @@ def start_detection(tc_new_rules):
                 result['time'] = dtime
                 result['ap'] = int(ap)
                 if 'delay' in tc_rules: 
-                    result['delay'] = tc_rules['delay'][:-2]
+                    result['delay'] = (tc_rules['delay'])[:-2]
                 if 'rate' in tc_rules: 
-                    result['rate'] = tc_rules['rate'][:-4]
+                    result['rate'] = (tc_rules['rate'])[:-4]
                 if 'loss' in tc_rules: 
-                    result['loss'] = tc_rules['loss'][:-1]
+                    result['loss'] = (tc_rules['loss'])[:-1]
 
                 g.results.append(result)
                 log_to_file(logp, od_results)
