@@ -244,7 +244,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
     results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
     axes[0,1].set_ylabel("Precision(%)")
     axes[0,1].legend(loc='lower left')
-    axes[0,0].set_yticks(np.array([30, 60, 90]))
+    axes[0,1].set_yticks(np.array([30, 60, 90]))
 
     # RATE
     results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0], color='tab:red')
@@ -275,11 +275,11 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
     # Adds vertical lines
     for i in range(4):
-        axes[i, 0].axvline(g.inc_time[first_name],linestyle ="dotted", color='tab:gray')
-        axes[i, 0].axvline(g.dec_time[first_name],linestyle ="dotted", color='tab:gray')
+        axes[i, 0].axvline(g.inc_time[first_name]+2,linestyle ="dotted", color='tab:gray')
+        axes[i, 0].axvline(g.dec_time[first_name]+2,linestyle ="dotted", color='tab:gray')
 
-        axes[i, 1].axvline(g.inc_time[second_name],linestyle ="dotted", color='tab:gray')
-        axes[i, 1].axvline(g.dec_time[second_name],linestyle ="dotted", color='tab:gray')
+        axes[i, 1].axvline(g.inc_time[second_name]+2,linestyle ="dotted", color='tab:gray')
+        axes[i, 1].axvline(g.dec_time[second_name]+2,linestyle ="dotted", color='tab:gray')
 
     # titles
     axes[0,0].set_title('(a) Bandwidth decrease')
