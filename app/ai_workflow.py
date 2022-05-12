@@ -80,7 +80,7 @@ def start_detection(tc_new_rules):
                 # format values type
                 result['time'] = dtime
                 result['ap'] = int(ap)
-                logger.debug("Current Rule: " + tc_rules)
+                logger.debug(f"Current Rule: {tc_rules}")
                 if 'delay' in tc_rules: 
                     result['delay'] = float(tc_rules['delay'][:-2])
                 if 'rate' in tc_rules: 
