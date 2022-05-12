@@ -61,7 +61,6 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
     already_inc = False
     # test
     while True:
-        logger.debug(f"----- \tTIMER \t->\t{timer} \t-----")
         if datetime.timestamp(datetime.now()) - stime >= timeout: break
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
