@@ -68,8 +68,8 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
                 max_rate = 20
                 min_rate = 8
             if change_loss:
-                max_loss = 30.0
-                min_loss = 15.0
+                max_loss = 35.0
+                min_loss = 20.0
         if not already_inc and timer >= inc_time:
             already_inc = True
             if change_rate:
