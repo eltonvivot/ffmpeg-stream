@@ -62,8 +62,8 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
     # test
     while True:
         logger.debug(f"----- \tTIMER \t->\t{timer} \t-----")
-        if timer >= timeout: break
-        if not already_dec and timer >= dec_time:
+        if datetime.timestamp(datetime.now()) - stime >= timeout: break
+        if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
             if change_rate:
                 max_rate = 20
@@ -71,7 +71,7 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
             if change_loss:
                 max_loss = 35.0
                 min_loss = 20.0
-        if not already_inc and timer >= inc_time:
+        if not already_inc and datetime.timestamp(datetime.now()) - stime >= inc_time:
             already_inc = True
             if change_rate:
                 max_rate = 500
