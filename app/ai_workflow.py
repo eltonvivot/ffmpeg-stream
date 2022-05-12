@@ -67,7 +67,7 @@ def start_detection(tc_new_rules):
                 g.results.append(tc_new_rules)
             if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
                 added_best_rule = True
-                tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
+                tc_best_rules = {"delay": 0.05, "loss": 0.0, "rate": 500.0}
                 update_uav_tc_rules(tc_best_rules)
                 tc_best_rules['time'] = datetime.timestamp(datetime.now()) - stime
                 g.results.append(tc_best_rules)
@@ -81,11 +81,13 @@ def start_detection(tc_new_rules):
                 dtime = datetime.timestamp(datetime.now()) - stime
                 ap = (line.split(': ')[1])[:2]
                 logp = "Time: {:.2f}".format(dtime) + f" | AP:{ap}%"
+                # format values type
                 result['time'] = dtime
-                result['ap'] = ap
-                for k, v in tc_rules.items():
-                    result[k] = v
-                    logp+= f" | {k}:{v}"
+                result['ap'] = int(ap)
+                if 'delay' in tc_rules: result['delay'] = float((tc_rules['delay'])[:-2])
+                if 'rate' in tc_rules: result['rate'] = float((tc_rules['rate'][:-4]))
+                if 'loss' in tc_rules: result['loss'] = float((tc_rules['loss'])[:-1])
+
                 g.results.append(result)
                 log_to_file(logp, od_results)
         return g.results
