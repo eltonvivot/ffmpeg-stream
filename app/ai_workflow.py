@@ -7,6 +7,7 @@ import paramiko, logging, time, os, threading, requests, random
 import matplotlib.pylab as plt 
 import pandas as pd 
 import seaborn as sns
+import numpy as np
  
 logger = logging.getLogger(__name__)
 logging.getLogger("paramiko").setLevel(logging.WARNING)
@@ -122,13 +123,6 @@ def start_detection(detection_name, change_rate, change_loss, change_delay):
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
             log_to_file(line.rstrip("\n"), od_output)
-            # if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
-            #     added_new_rule = True
-            #     update_uav_tc_rules(tc_new_rules, stime)
-            # if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
-            #     added_best_rule = True
-            #     tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
-            #     update_uav_tc_rules(tc_best_rules, stime)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
                 threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
@@ -244,38 +238,40 @@ def plot_figures(should_save, should_display, first_name, second_name):
     # AP
     results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
     axes[0,0].set_ylabel("Precision(%)")
-    axes[0,0].legend(loc='upper left')
+    axes[0,0].legend(loc='lower left')
+    axes[0,0].set_yticks(np.array([30, 60, 90]))
 
     results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
     axes[0,1].set_ylabel("Precision(%)")
-    axes[0,1].legend(loc='upper left')
+    axes[0,1].legend(loc='lower left')
+    axes[0,0].set_yticks(np.array([30, 60, 90]))
 
     # RATE
     results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0], color='tab:red')
     axes[1,0].set_ylabel('Bandwidth(Mbits/s)')
-    axes[1,0].legend(loc='upper left')
+    axes[1,0].legend(loc='lower left')
 
     results2.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,1], color='tab:red')
     axes[1,1].set_ylabel('Bandwidth(Mbits/s)')
-    axes[1,1].legend(loc='upper left')
+    axes[1,1].legend(loc='lower left')
 
     # LOSS
     results1.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,0], color='tab:orange')
     axes[2,0].set_ylabel('Network loss(%)')
-    axes[2,0].legend(loc='upper left')
+    axes[2,0].legend(loc='lower left')
 
     results2.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,1], color='tab:orange')
     axes[2,1].set_ylabel('Network loss(%)')
-    axes[2,1].legend(loc='upper left')
+    axes[2,1].legend(loc='lower left')
 
     # DELAY
     results1.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,0], color='tab:green')
     axes[3,0].set_ylabel('Network latency(ms)')
-    axes[3,0].legend(loc='upper left')
+    axes[3,0].legend(loc='lower left')
 
     results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,1], color='tab:green')
     axes[3,1].set_ylabel('Network latency(ms)')
-    axes[3,1].legend(loc='upper left')
+    axes[3,1].legend(loc='lower left')
 
     # Adds vertical lines
     for i in range(4):
@@ -290,13 +286,13 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[0,1].set_title('(b) Package loss')
 
     # adds comments
-    axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name],100), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="right")
+    axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name],87), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
     # axes[0,0].annotate('Iperf Iniciado', xy=('2022/01/17 23:29:38',100), xytext=(0, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="center")
-    axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
+    axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name],87), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
 
-    axes[0,1].annotate('Package loss increased', xy=(g.dec_time[second_name],100), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="right")
+    axes[0,1].annotate('Package loss increased', xy=(g.dec_time[second_name],87), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
     # axes[0,0].annotate('Iperf Iniciado', xy=('2022/01/17 23:29:38',100), xytext=(0, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="center")
-    axes[0,1].annotate('Package loss decreased', xy=(g.inc_time[second_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
+    axes[0,1].annotate('Package loss decreased', xy=(g.inc_time[second_name],87), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
 
     # plt.xlim([0, 20])
     plt.setp(axes, xlim=(0, ai_dtime))
