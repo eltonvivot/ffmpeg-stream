@@ -63,15 +63,18 @@ def start_detection(tc_new_rules):
             if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
                 added_new_rule = True
                 update_uav_tc_rules(tc_new_rules)
-                if 'delay' in tc_new_rules: tc_new_rules['delay'] = tc_new_rules['delay'][:-2]
-                if 'rate' in tc_new_rules: tc_new_rules['rate'] = tc_new_rules['rate'][:-4]
-                if 'loss' in tc_new_rules: tc_new_rules['loss'] = tc_new_rules['loss'][:-1]
+                if 'delay' in tc_new_rules: tc_new_rules['delay'] = float(tc_new_rules['delay'][:-2])
+                if 'rate' in tc_new_rules: tc_new_rules['rate'] = float(tc_new_rules['rate'][:-4])
+                if 'loss' in tc_new_rules: tc_new_rules['loss'] = float(tc_new_rules['loss'][:-1])
                 tc_new_rules['time'] = datetime.timestamp(datetime.now()) - stime
                 g.results.append(tc_new_rules)
             if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
                 added_best_rule = True
-                tc_best_rules = {"delay": 0.05, "loss": 0.0, "rate": 500.0}
+                tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
                 update_uav_tc_rules(tc_best_rules)
+                if 'delay' in tc_new_rules: tc_new_rules['delay'] = float(tc_new_rules['delay'][:-2])
+                if 'rate' in tc_new_rules: tc_new_rules['rate'] = float(tc_new_rules['rate'][:-4])
+                if 'loss' in tc_new_rules: tc_new_rules['loss'] = float(tc_new_rules['loss'][:-1])
                 tc_best_rules['time'] = datetime.timestamp(datetime.now()) - stime
                 g.results.append(tc_best_rules)
             if 'Video stream:' in line and not triggered_stop:
@@ -89,11 +92,11 @@ def start_detection(tc_new_rules):
                 result['ap'] = int(ap)
                 logger.debug(tc_rules)
                 if 'delay' in tc_rules: 
-                    result['delay'] = (tc_rules['delay'])[:-2]
+                    result['delay'] = float(tc_rules['delay'][:-2])
                 if 'rate' in tc_rules: 
-                    result['rate'] = (tc_rules['rate'])[:-4]
+                    result['rate'] = float(tc_rules['rate'][:-4])
                 if 'loss' in tc_rules: 
-                    result['loss'] = (tc_rules['loss'])[:-1]
+                    result['loss'] = float(tc_rules['loss'][:-1])
 
                 g.results.append(result)
                 log_to_file(logp, od_results)
