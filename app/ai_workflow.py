@@ -33,7 +33,7 @@ def disconnect():
     client = None
 
 # Decreases bandwidth
-def auto_rules(detection_name, change_rate, change_loss, stime, timeout=ai_dtime+3, delay=0):
+def auto_rules(change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_dtime+3, delay=0):
     time.sleep(delay)
     # last
     lrate = 500.0
@@ -49,13 +49,8 @@ def auto_rules(detection_name, change_rate, change_loss, stime, timeout=ai_dtime
     max_delay = 3.8
     timer=0.0
     # decrease and increase time
-    dec_time = random.uniform((timeout/3)-5, (timeout/3)+5)
     already_dec = False
-    inc_time = random.uniform((timeout/3)-5, (timeout/3)+5) * 2
     already_inc = False
-    # add to g
-    g.dec_time[detection_name] = dec_time
-    g.inc_time[detection_name] = inc_time
     # test
     while True:
         if timer >= timeout: break
@@ -126,7 +121,10 @@ def start_detection(detection_name, change_rate, change_loss):
                 triggered_stop = True
                 threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
                 stime = datetime.timestamp(datetime.now()) +3
-                threading.Thread(target=auto_rules, args=(detection_name, change_rate, change_loss, stime, )).start()
+                # add dec and inc time to g
+                g.dec_time[detection_name] = random.uniform(((ai_dtime+3)/3)-5, ((ai_dtime+3)/3)+5)
+                g.inc_time[detection_name] = random.uniform(((ai_dtime+3)/3)-5, ((ai_dtime+3)/3)+5) * 2
+                threading.Thread(target=auto_rules, args=(detection_name, change_rate, change_loss, stime, g.dec_time[detection_name], g.inc_time[detection_name])).start()
             if 'person:' in line:
                 result={}
                 tc_rules = (requests.get(url=tc_control)).json()
@@ -266,12 +264,12 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[3,1].legend(loc='upper left')
 
     # Adds vertical lines
-    for i in range(4):
-        axes[i, 0].axvline(g.inc_time[first_name],linestyle ="dotted", color='tab:gray')
-        axes[i, 0].axvline(g.dec_time[first_name],linestyle ="dotted", color='tab:gray')
+    # for i in range(4):
+    #     axes[i, 0].axvline(g.inc_time[first_name],linestyle ="dotted", color='tab:gray')
+    #     axes[i, 0].axvline(g.dec_time[first_name],linestyle ="dotted", color='tab:gray')
 
-        axes[i, 1].axvline(g.inc_time[second_name],linestyle ="dotted", color='tab:gray')
-        axes[i, 1].axvline(g.dec_time[second_name],linestyle ="dotted", color='tab:gray')
+    #     axes[i, 1].axvline(g.inc_time[second_name],linestyle ="dotted", color='tab:gray')
+    #     axes[i, 1].axvline(g.dec_time[second_name],linestyle ="dotted", color='tab:gray')
 
     # titles
     axes[0,0].set_title('(a) Bandwidth decrease')
