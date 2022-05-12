@@ -169,6 +169,7 @@ def update_uav_tc_rules(rules, stime):
     if 'rate' in rules: rules['rate'] = float(rules['rate'][:-4])
     if 'loss' in rules: rules['loss'] = float(rules['loss'][:-1])
     rules['time'] = datetime.timestamp(datetime.now()) - stime
+    rules['ap'] = None
     g.results.append(rules)
 
 # # Simulates a request for more bandwidth
