@@ -39,7 +39,7 @@ def disconnect():
     client = None
 
 # Decreases bandwidth
-def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_dtime+3, delay=0):
+def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_dtime, delay=0):
     logger.debug(f"Starting auto rules \t|\t rate: {change_rate} | loss: {change_loss} timeout: {timeout} | dec: {dec_time} | inc: {inc_time}  -----------------")
     time.sleep(delay)
     # last
@@ -65,7 +65,7 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
             already_dec = True
             if change_rate:
                 max_rate = 20
-                min_rate = 0
+                min_rate = 8
             if change_loss:
                 max_loss = 30.0
                 min_loss = 15.0
@@ -263,11 +263,11 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[2,1].legend(loc='upper left')
 
     # DELAY
-    results1.plot(kind='line',y='loss',x='time',label='UE', ax=axes[3,0], color='tab:orange')
+    results1.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,0], color='tab:orange')
     axes[3,0].set_ylabel('Network latency(ms)')
     axes[3,0].legend(loc='upper left')
 
-    results2.plot(kind='line',y='loss',x='time',label='UE', ax=axes[3,1], color='tab:orange')
+    results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,1], color='tab:orange')
     axes[3,1].set_ylabel('Network latency(ms)')
     axes[3,1].legend(loc='upper left')
 
