@@ -115,13 +115,13 @@ def start_detection(tc_new_rules, change_rate, change_loss):
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
             log_to_file(line.rstrip("\n"), od_output)
-            if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
-                added_new_rule = True
-                update_uav_tc_rules(tc_new_rules, stime)
-            if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
-                added_best_rule = True
-                tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
-                update_uav_tc_rules(tc_best_rules, stime)
+            # if (datetime.timestamp(datetime.now()) - stime) >= 7.0 and triggered_stop and not added_new_rule:
+            #     added_new_rule = True
+            #     update_uav_tc_rules(tc_new_rules, stime)
+            # if (datetime.timestamp(datetime.now()) - stime) >= 14.0 and triggered_stop and not added_best_rule:
+            #     added_best_rule = True
+            #     tc_best_rules = {"delay":"0.05ms", "loss":"0.0%", "rate":"500Mbps"}
+            #     update_uav_tc_rules(tc_best_rules, stime)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
                 threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
@@ -157,7 +157,7 @@ def stop_detection(seconds=0):
 def log_to_file(string, file):
     os.system(f"echo '{string}' >> {file}")
 
-def plot_figure(should_save, should_display, results):
+def plot_figure_old(should_save, should_display, results):
     # def open_results():
     #     import json
     #     with open('/home/elton/Repositories/ffmpeg-stream/data/results.json', 'r') as cfile:
