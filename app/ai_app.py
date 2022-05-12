@@ -22,9 +22,9 @@ def handle_start_detection():
     g.dec_time = {}
     first_name = 'first'
     second_name = 'second'
-    start_detection(first_name, True, False)
+    start_detection(first_name, True, False, False)
     time.sleep(40)
-    start_detection(second_name, False, True)
+    start_detection(second_name, False, True, False)
     # new plot
     plot_figures(True, False, first_name, second_name)
     return jsonify({'result': "Ok."})

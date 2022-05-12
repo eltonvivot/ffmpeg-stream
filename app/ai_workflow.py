@@ -40,7 +40,7 @@ def disconnect():
     client = None
 
 # Decreases bandwidth
-def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_dtime, delay=0):
+def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, dec_time, inc_time, timeout=ai_dtime, delay=0):
     logger.debug(f"Starting auto rules \t|\t rate: {change_rate} | loss: {change_loss} timeout: {timeout} | dec: {dec_time} | inc: {inc_time}  -----------------")
     time.sleep(delay)
     # last
@@ -54,7 +54,7 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
     # max
     max_rate = 500.0
     max_loss = 2.5
-    max_delay = 3.8
+    max_delay = 20
     # decrease and increase time
     already_dec = False
     already_inc = False
@@ -64,11 +64,14 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
             if change_rate:
-                max_rate = 20
-                min_rate = 8
+                max_rate = 12
+                min_rate = 4
             if change_loss:
                 max_loss = 35.0
                 min_loss = 20.0
+            if change_delay:
+                max_delay = 250
+                min_delay = 100
         if not already_inc and datetime.timestamp(datetime.now()) - stime >= inc_time:
             already_inc = True
             if change_rate:
@@ -77,6 +80,9 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
             if change_loss:
                 max_loss = 2.5
                 min_loss = 0.0
+            if change_delay:
+                max_delay = 20
+                min_delay = 0.3
 
         time.sleep(random.uniform(0.7, 1.8))
         # random
@@ -92,7 +98,7 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
 
 
 # Starts AI Object Detection
-def start_detection(detection_name, change_rate, change_loss):
+def start_detection(detection_name, change_rate, change_loss, change_delay):
     #logger.debug(f"NEW RULES {tc_new_rules}")
     global client
     # Check if already have connections
@@ -130,7 +136,7 @@ def start_detection(detection_name, change_rate, change_loss):
                 # add dec and inc time to g
                 g.dec_time[detection_name] = random.uniform(((ai_dtime+3)/3)-5, ((ai_dtime+3)/3)+5)
                 g.inc_time[detection_name] = random.uniform(((ai_dtime+3)/3)-5, ((ai_dtime+3)/3)+5) * 2
-                threading.Thread(target=auto_rules, args=(detection_name, change_rate, change_loss, stime, g.dec_time[detection_name], g.inc_time[detection_name])).start()
+                threading.Thread(target=auto_rules, args=(detection_name, change_rate, change_loss, change_delay, stime, g.dec_time[detection_name], g.inc_time[detection_name])).start()
             if 'person:' in line:
                 result={}
                 tc_rules = (requests.get(url=tc_control)).json()
@@ -245,29 +251,29 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[0,1].legend(loc='upper left')
 
     # RATE
-    results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0])
+    results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0], color='tab:red')
     axes[1,0].set_ylabel('Bandwidth(Mbits/s)')
     axes[1,0].legend(loc='upper left')
 
-    results2.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,1])
+    results2.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,1], color='tab:red')
     axes[1,1].set_ylabel('Bandwidth(Mbits/s)')
     axes[1,1].legend(loc='upper left')
 
     # LOSS
-    results1.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,0], color='tab:blue')
+    results1.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,0], color='tab:orange')
     axes[2,0].set_ylabel('Network loss(%)')
     axes[2,0].legend(loc='upper left')
 
-    results2.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,1], color='tab:blue')
+    results2.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,1], color='tab:orange')
     axes[2,1].set_ylabel('Network loss(%)')
     axes[2,1].legend(loc='upper left')
 
     # DELAY
-    results1.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,0], color='tab:orange')
+    results1.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,0], color='tab:green')
     axes[3,0].set_ylabel('Network latency(ms)')
     axes[3,0].legend(loc='upper left')
 
-    results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,1], color='tab:orange')
+    results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,1], color='tab:green')
     axes[3,1].set_ylabel('Network latency(ms)')
     axes[3,1].legend(loc='upper left')
 
