@@ -284,7 +284,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
     # axes[0,0].annotate('Iperf Iniciado', xy=('2022/01/17 23:29:38',100), xytext=(0, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="center")
     axes[0,1].annotate('Bandwidth increased', xy=(g.inc_time[second_name],100), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10)
 
-    plt.xlim([0, 20])
+    # plt.xlim([0, 20])
 
     if should_save:
         plt.savefig(f"{gc_folder}result_{int(datetime.timestamp(datetime.now()))}.pdf", bbox_inches='tight')
