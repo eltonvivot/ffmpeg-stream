@@ -141,9 +141,9 @@ def start_detection(change_rate, change_loss):
                 if 'rate' in tc_rules: result['rate'] = float(tc_rules['rate'][:-4])
                 if 'loss' in tc_rules: result['loss'] = float(tc_rules['loss'][:-1])
 
-                g.results['detection_name'].append(result)
+                g.results[g.detection_name].append(result)
                 log_to_file(logp, od_results)
-        return g.results['detection_name']
+        return g.results[g.detection_name]
     except Exception:
             raise
     finally:
