@@ -55,7 +55,6 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
     max_rate = 500.0
     max_loss = 2.5
     max_delay = 3.8
-    timer=0.0
     # decrease and increase time
     already_dec = False
     already_inc = False
@@ -80,7 +79,6 @@ def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_ti
                 min_loss = 0.0
 
         time.sleep(1)
-        timer+=1
         # random
         rules = {}
         rules['rate'] = f"{random.uniform(lrate-30 if lrate-30 > min_rate else min_rate, lrate+30 if lrate+30 < max_rate else max_rate)}Mbps"
