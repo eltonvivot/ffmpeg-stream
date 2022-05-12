@@ -33,7 +33,7 @@ def disconnect():
     client = None
 
 # Decreases bandwidth
-def auto_rules(change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_dtime+3, delay=0):
+def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_dtime+3, delay=0):
     time.sleep(delay)
     # last
     lrate = 500.0
@@ -80,7 +80,7 @@ def auto_rules(change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_d
         rules['loss'] = f"{random.uniform(lloss-1.0 if lloss-1.0 > min_loss else min_loss, lloss+1.0 if lloss+1.0 < max_loss else max_loss)}%"
         rules['delay'] = f"{random.uniform(ldelay-4 if ldelay-4 > min_delay else min_delay, ldelay+4.0 if ldelay+4.0 < max_delay else max_delay)}ms"
 
-        update_uav_tc_rules(rules, stime)
+        update_uav_tc_rules(detection_name, rules, stime)
         lrate = rules['rate']
         lloss = rules['loss']
         ldelay = rules['delay']
@@ -292,7 +292,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
         plt.show()
 
 
-def update_uav_tc_rules(rules, stime):
+def update_uav_tc_rules(detection_name, rules, stime):
     logger.debug(f"Applying: {rules}")
     logger.debug(f"Result: {(requests.post(url=tc_control, json=rules)).json()}")
     if 'delay' in rules: rules['delay'] = float(rules['delay'][:-2])
