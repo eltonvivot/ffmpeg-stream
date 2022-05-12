@@ -15,6 +15,8 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 client = None
 
+tc_results = {}
+
 # Connects to AI Object Detection
 def connect():
     global client
@@ -111,6 +113,7 @@ def start_detection(detection_name, change_rate, change_loss):
         stime = 0.0
         last_rule = {}
         g.results[detection_name] = []
+        tc_results[detection_name] = []
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
@@ -222,8 +225,8 @@ def plot_figures(should_save, should_display, first_name, second_name):
     # load results
     # logger.debug(f"RESULT 1 ---------------------\n{g.results[first_name]}\n")
     # logger.debug(f"RESULT 2 ---------------------\n{g.results[second_name]}\n")
-    results1 = pd.DataFrame(g.results[first_name])
-    results2 = pd.DataFrame(g.results[second_name])
+    results1 = pd.DataFrame(g.results[first_name] + tc_results[first_name])
+    results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
 
     # creates graphic
     sns.set_context('paper', font_scale=1.5)
@@ -298,6 +301,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
 
 def update_uav_tc_rules(detection_name, rules, stime):
+    global tc_results
     logger.debug(f"Applying: {rules}")
     logger.debug(f"Result: {(requests.post(url=tc_control, json=rules)).json()}")
     if 'delay' in rules: rules['delay'] = float(rules['delay'][:-2])
@@ -305,4 +309,4 @@ def update_uav_tc_rules(detection_name, rules, stime):
     if 'loss' in rules: rules['loss'] = float(rules['loss'][:-1])
     rules['time'] = datetime.timestamp(datetime.now()) - stime + 2 # delay
     rules['ap'] = None
-    # g.results[detection_name].append(rules)
+    tc_results[detection_name].append(rules)
