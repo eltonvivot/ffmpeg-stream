@@ -20,14 +20,13 @@ def handle_start_detection():
     g.results = {}
     g.inc_time = {}
     g.dec_time = {}
-    g.detection_name = 'first'
-    start_detection(True, False)
-    first_name = g.detection_name
-    g.detection_name = 'second'
+    first_name = 'first'
+    second_name = 'second'
+    start_detection(first_name, True, False)
     time.sleep(20)
-    start_detection(False, True)
+    start_detection(second_name, False, True)
     # new plot
-    plot_figures(True, False, first_name, g.detection_name)
+    plot_figures(True, False, first_name, second_name)
     return jsonify({'result': "Ok."})
 
 @ai_app_bp.route('/ai_detection/stop', methods=['GET'])

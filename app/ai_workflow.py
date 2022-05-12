@@ -33,7 +33,7 @@ def disconnect():
     client = None
 
 # Decreases bandwidth
-def auto_rules(change_rate, change_loss, stime, timeout=ai_dtime+3, delay=0):
+def auto_rules(detection_name, change_rate, change_loss, stime, timeout=ai_dtime+3, delay=0):
     time.sleep(delay)
     # last
     lrate = 500.0
@@ -54,8 +54,8 @@ def auto_rules(change_rate, change_loss, stime, timeout=ai_dtime+3, delay=0):
     inc_time = random.uniform((timeout/3)-5, (timeout/3)+5) * 2
     already_inc = False
     # add to g
-    g.dec_time[g.detection_name] = dec_time
-    g.inc_time[g.detection_name] = inc_time
+    g.dec_time[detection_name] = dec_time
+    g.inc_time[detection_name] = inc_time
     # test
     while True:
         if timer >= timeout: break
@@ -92,7 +92,7 @@ def auto_rules(change_rate, change_loss, stime, timeout=ai_dtime+3, delay=0):
 
 
 # Starts AI Object Detection
-def start_detection(change_rate, change_loss):
+def start_detection(detection_name, change_rate, change_loss):
     #logger.debug(f"NEW RULES {tc_new_rules}")
     global client
     # Check if already have connections
@@ -110,7 +110,7 @@ def start_detection(change_rate, change_loss):
         added_best_rule = False
         stime = 0.0
         last_rule = {}
-        g.results[g.detection_name] = []
+        g.results[detection_name] = []
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
@@ -126,7 +126,7 @@ def start_detection(change_rate, change_loss):
                 triggered_stop = True
                 threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
                 stime = datetime.timestamp(datetime.now()) +3
-                threading.Thread(target=auto_rules, args=(change_rate, change_loss, stime, )).start()
+                threading.Thread(target=auto_rules, args=(detection_name, change_rate, change_loss, stime, )).start()
             if 'person:' in line:
                 result={}
                 tc_rules = (requests.get(url=tc_control)).json()
@@ -141,9 +141,9 @@ def start_detection(change_rate, change_loss):
                 if 'rate' in tc_rules: result['rate'] = float(tc_rules['rate'][:-4])
                 if 'loss' in tc_rules: result['loss'] = float(tc_rules['loss'][:-1])
 
-                g.results[g.detection_name].append(result)
+                g.results[detection_name].append(result)
                 log_to_file(logp, od_results)
-        return g.results[g.detection_name]
+        return g.results[detection_name]
     except Exception:
             raise
     finally:
@@ -302,4 +302,4 @@ def update_uav_tc_rules(rules, stime):
     if 'loss' in rules: rules['loss'] = float(rules['loss'][:-1])
     rules['time'] = datetime.timestamp(datetime.now()) - stime + 2 # delay
     rules['ap'] = None
-    g.results[g.detection_name].append(rules)
+    g.results[detection_name].append(rules)
