@@ -236,9 +236,6 @@ def plot_figures(should_save, should_display, first_name, second_name):
     sns.set_context('paper', font_scale=1.5)
     fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
 
-    axes[0,0].set_xlabel('Time')
-    axes[0,1].set_xlabel('Time')
-
     # AP
     results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
     axes[0,0].set_ylabel("Precision(%)")
@@ -276,6 +273,9 @@ def plot_figures(should_save, should_display, first_name, second_name):
     results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,1], color='tab:green')
     axes[3,1].set_ylabel('Network latency(ms)')
     axes[3,1].legend(loc='lower left')
+
+    axes[3,0].set_xlabel('Time(sec)')
+    axes[3,1].set_xlabel('Time(sec)')   
 
     # Adds vertical lines
     for i in range(4):
