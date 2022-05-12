@@ -220,8 +220,8 @@ def plot_figure_old(should_save, should_display, results):
 def plot_figures(should_save, should_display, first_name, second_name):    
     sns.set_theme(style="darkgrid")
     # load results
-    logger.debug(f"RESULT 1 ---------------------\n{g.results[first_name]}\n")
-    logger.debug(f"RESULT 2 ---------------------\n{g.results[second_name]}\n")
+    # logger.debug(f"RESULT 1 ---------------------\n{g.results[first_name]}\n")
+    # logger.debug(f"RESULT 2 ---------------------\n{g.results[second_name]}\n")
     results1 = pd.DataFrame(g.results[first_name])
     results2 = pd.DataFrame(g.results[second_name])
 
@@ -305,4 +305,4 @@ def update_uav_tc_rules(detection_name, rules, stime):
     if 'loss' in rules: rules['loss'] = float(rules['loss'][:-1])
     rules['time'] = datetime.timestamp(datetime.now()) - stime + 2 # delay
     rules['ap'] = None
-    g.results[detection_name].append(rules)
+    # g.results[detection_name].append(rules)
