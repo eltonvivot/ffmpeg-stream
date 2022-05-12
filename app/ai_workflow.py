@@ -34,6 +34,7 @@ def disconnect():
 
 # Decreases bandwidth
 def auto_rules(detection_name, change_rate, change_loss, stime, dec_time, inc_time, timeout=ai_dtime+3, delay=0):
+    logger.debug(f"Starting auto rules \t|\t rate: {change_rate} | loss: {change_loss} timeout: {timeout} | dec: {dec_time} | inc: {inc_time}  -----------------")
     time.sleep(delay)
     # last
     lrate = 500.0
