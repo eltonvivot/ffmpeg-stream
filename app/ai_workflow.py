@@ -49,7 +49,7 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
     lloss = 0.0
     ldelay = 0.6
     # min
-    min_rate = 100
+    min_rate = 300.0
     min_loss = 0.0
     min_delay = 0.3
     # max
@@ -245,20 +245,30 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
     # creates graphic
     sns.set_context('paper', font_scale=1.5)
-    # fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
-    fig, axes = plt.subplots(nrows=5, ncols=2, sharex='col', figsize=(15,15))
+    fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
+    # fig, axes = plt.subplots(nrows=5, ncols=2, sharex='col', figsize=(15,15))
 
     # AP %
-    results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
-    axes[0,0].set_ylabel("Precision(%)")
-    axes[0,0].set_yticks(np.array([30, 60, 90]))
-    axes[0,0].legend(loc='lower left')
+    # results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
+    # axes[0,0].set_ylabel("Precision(%)")
+    # axes[0,0].set_yticks(np.array([30, 60, 90]))
+    # axes[0,0].legend(loc='lower left')
 
-    results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
-    axes[0,1].set_ylabel("Precision(%)")
-    axes[0,1].set_yticks(np.array([30, 60, 90]))
-    axes[0,1].legend(loc='lower left')
+    # results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
+    # axes[0,1].set_ylabel("Precision(%)")
+    # axes[0,1].set_yticks(np.array([30, 60, 90]))
+    # axes[0,1].legend(loc='lower left')
     
+    # Detection Quantity
+    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
+    axes[0,0].set_ylabel("Quantity")
+    axes[0,0].legend(loc='lower left')
+    axes[0,0].set_yticks(np.array([0, 20, 40]))
+
+    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
+    axes[0,1].set_ylabel("Quantity")
+    axes[0,1].legend(loc='lower left')
+    axes[0,1].set_yticks(np.array([0, 20, 40]))
 
     # RATE
     results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0], color='tab:red')
@@ -290,15 +300,6 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[3,0].set_xlabel('Time(sec)')
     axes[3,1].set_xlabel('Time(sec)')   
 
-    # AP Quantity
-    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[4,0], color='tab:blue')
-    axes[4,0].set_ylabel("Quantity")
-    axes[4,0].legend(loc='lower left')
-
-    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[4,1], color='tab:blue')
-    axes[4,1].set_ylabel("Quantity")
-    axes[4,1].legend(loc='lower left')
-
     # Adds vertical lines
     for i in range(4):
         axes[i, 0].axvline(g.inc_time[first_name],linestyle ="dotted", color='tab:gray')
@@ -314,11 +315,11 @@ def plot_figures(should_save, should_display, first_name, second_name):
     # adds comments
     # axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name],87), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
     # axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name],87), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
-    axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name], axes[0,0].get_yticks()[-1]), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
-    axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name], axes[0,0].get_yticks()[-1]), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
+    axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name], axes[0,0].get_yticks()[-1] -3), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
+    axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name], axes[0,0].get_yticks()[-1] -3), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
 
-    axes[0,1].annotate('Package loss increased', xy=(g.dec_time[second_name], axes[0,1].get_yticks()[-1]), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
-    axes[0,1].annotate('Package loss decreased', xy=(g.inc_time[second_name], axes[0,1].get_yticks()[-1]), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
+    axes[0,1].annotate('Package loss increased', xy=(g.dec_time[second_name], axes[0,1].get_yticks()[-1] -3), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
+    axes[0,1].annotate('Package loss decreased', xy=(g.inc_time[second_name], axes[0,1].get_yticks()[-1] -3), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
 
     # plt.xlim([0, 20])
     plt.setp(axes, xlim=(0, ai_dtime))
