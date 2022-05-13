@@ -234,7 +234,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
     aps1_qnt = aps1.groupby(['time'])['ap'].count()
 
     aps2 = pd.DataFrame({})
-    aps2['time'] = results1['time'].astype(int)
+    aps2['time'] = results2['time'].astype(int)
     aps2['ap'] = results2['ap']
     aps2_qnt = aps1.groupby(['time'])['ap'].count()
     
@@ -245,22 +245,18 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
     # creates graphic
     sns.set_context('paper', font_scale=1.5)
-    fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
+    # fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
+    fig, axes = plt.subplots(nrows=5, ncols=2, sharex='col', figsize=(15,15))
 
-    # AP
-    # results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
-    # axes[0,0].set_ylabel("Precision(%)")
-    # axes[0,0].set_yticks(np.array([30, 60, 90]))
-    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
-    axes[0,0].set_ylabel("Quantity")
+    # AP %
+    results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
+    axes[0,0].set_ylabel("Precision(%)")
+    axes[0,0].set_yticks(np.array([30, 60, 90]))
     axes[0,0].legend(loc='lower left')
-    
 
-    # results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
-    # axes[0,1].set_ylabel("Precision(%)")
-    # axes[0,1].set_yticks(np.array([30, 60, 90]))
-    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
-    axes[0,1].set_ylabel("Quantity")
+    results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
+    axes[0,1].set_ylabel("Precision(%)")
+    axes[0,1].set_yticks(np.array([30, 60, 90]))
     axes[0,1].legend(loc='lower left')
     
 
@@ -293,6 +289,15 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
     axes[3,0].set_xlabel('Time(sec)')
     axes[3,1].set_xlabel('Time(sec)')   
+
+    # AP Quantity
+    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[4,0], color='tab:blue')
+    axes[4,0].set_ylabel("Quantity")
+    axes[4,0].legend(loc='lower left')
+
+    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[4,1], color='tab:blue')
+    axes[4,1].set_ylabel("Quantity")
+    axes[4,1].legend(loc='lower left')
 
     # Adds vertical lines
     for i in range(4):
