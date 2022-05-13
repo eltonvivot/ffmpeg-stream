@@ -236,7 +236,7 @@ def plot_figures(should_save, should_display, first_name, second_name):
     aps2 = pd.DataFrame({})
     aps2['time'] = results2['time'].astype(int)
     aps2['ap'] = results2['ap']
-    aps2_qnt = aps1.groupby(['time'])['ap'].count()
+    aps2_qnt = aps2.groupby(['time'])['ap'].count()
     
     g.dec_time[first_name]+=4
     g.inc_time[first_name]+=4
