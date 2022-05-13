@@ -113,10 +113,7 @@ def start_detection(detection_name, change_rate, change_loss, change_delay):
     command = f"cd darknet && ./darknet detector demo cfg/coco.data cfg/yolov4-p6.cfg yolov4-p6.weights {uav_cam} -dont_show"
     try:
         triggered_stop = False
-        added_new_rule = False
-        added_best_rule = False
         stime = 0.0
-        last_rule = {}
         g.results[detection_name] = []
         tc_results[detection_name] = []
         # executes command
