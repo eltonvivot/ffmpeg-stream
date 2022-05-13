@@ -227,6 +227,17 @@ def plot_figures(should_save, should_display, first_name, second_name):
     results1.sort_values(by=['time'], inplace=True)
     results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
     results2.sort_values(by=['time'], inplace=True)
+    # aps count
+    aps1 = pd.DataFrame({})
+    aps1['time'] = results1['time'].astype(int)
+    aps1['ap'] = results1['ap']
+    aps1_qnt = aps1.groupby(['time'])['ap'].count()
+
+    aps2 = pd.DataFrame({})
+    aps2['time'] = results1['time'].astype(int)
+    aps2['ap'] = results2['ap']
+    aps2_qnt = aps1.groupby(['time'])['ap'].count()
+    
     g.dec_time[first_name]+=4
     g.inc_time[first_name]+=4
     g.dec_time[second_name]+=4
@@ -237,15 +248,21 @@ def plot_figures(should_save, should_display, first_name, second_name):
     fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
 
     # AP
-    results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
-    axes[0,0].set_ylabel("Precision(%)")
+    # results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
+    # axes[0,0].set_ylabel("Precision(%)")
+    # axes[0,0].set_yticks(np.array([30, 60, 90]))
+    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
+    axes[0,0].set_ylabel("Quantity")
     axes[0,0].legend(loc='lower left')
-    axes[0,0].set_yticks(np.array([30, 60, 90]))
+    
 
-    results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
-    axes[0,1].set_ylabel("Precision(%)")
+    # results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
+    # axes[0,1].set_ylabel("Precision(%)")
+    # axes[0,1].set_yticks(np.array([30, 60, 90]))
+    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
+    axes[0,1].set_ylabel("Quantity")
     axes[0,1].legend(loc='lower left')
-    axes[0,1].set_yticks(np.array([30, 60, 90]))
+    
 
     # RATE
     results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0], color='tab:red')
@@ -290,13 +307,13 @@ def plot_figures(should_save, should_display, first_name, second_name):
     axes[0,1].set_title('(b) Package loss')
 
     # adds comments
-    axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name],87), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
-    # axes[0,0].annotate('Iperf Iniciado', xy=('2022/01/17 23:29:38',100), xytext=(0, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="center")
-    axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name],87), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
+    # axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name],87), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
+    # axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name],87), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
+    axes[0,0].annotate('Bandwidth decreased', xy=(g.dec_time[first_name], axes[0,0].get_yticks()[-1]), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
+    axes[0,0].annotate('Bandwidth increased', xy=(g.inc_time[first_name], axes[0,0].get_yticks()[-1]), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
 
-    axes[0,1].annotate('Package loss increased', xy=(g.dec_time[second_name],87), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
-    # axes[0,0].annotate('Iperf Iniciado', xy=('2022/01/17 23:29:38',100), xytext=(0, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=10, horizontalalignment="center")
-    axes[0,1].annotate('Package loss decreased', xy=(g.inc_time[second_name],87), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
+    axes[0,1].annotate('Package loss increased', xy=(g.dec_time[second_name], axes[0,1].get_yticks()[-1]), xytext=(-15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11, horizontalalignment="right")
+    axes[0,1].annotate('Package loss decreased', xy=(g.inc_time[second_name], axes[0,1].get_yticks()[-1]), xytext=(15, -15), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='black'), fontsize=11)
 
     # plt.xlim([0, 20])
     plt.setp(axes, xlim=(0, ai_dtime))
