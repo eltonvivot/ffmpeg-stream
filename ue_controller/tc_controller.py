@@ -29,11 +29,11 @@ def create_rules(rules):
         tc_cmd += f" --rate {rules['rate']}"
     if 'loss' in rules:
         tc_cmd += f" --loss {rules['loss']}"
-    # tc_cmd += " --overwrite"
+    tc_cmd += " --overwrite"
 
-    delete_rules()
-    exec_and_log(f"{tc_cmd} --direction incoming")
-    exec_and_log(f"{tc_cmd} --direction outgoing")
+    # delete_rules()
+    # exec_and_log(f"{tc_cmd} --direction incoming")
+    # exec_and_log(f"{tc_cmd} --direction outgoing")
 
 def delete_rules():
     tc_cmd = f"tcdel {if_name} --all"
