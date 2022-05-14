@@ -270,29 +270,29 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
     # RATE
     results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0], color='tab:red')
-    axes[1,0].set_ylabel('Bandwidth(Mbits/s)')
+    axes[1,0].set_ylabel('Bandwidth(Mbit/s)')
     axes[1,0].legend(loc='lower left')
 
     results2.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,1], color='tab:red')
-    axes[1,1].set_ylabel('Bandwidth(Mbits/s)')
+    axes[1,1].set_ylabel('Bandwidth(Mbit/s)')
     axes[1,1].legend(loc='lower left')
 
     # LOSS
     results1.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,0], color='tab:orange')
-    axes[2,0].set_ylabel('Network loss(%)')
+    axes[2,0].set_ylabel('Package loss(%)')
     axes[2,0].legend(loc='lower left')
 
     results2.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,1], color='tab:orange')
-    axes[2,1].set_ylabel('Network loss(%)')
+    axes[2,1].set_ylabel('Package loss(%)')
     axes[2,1].legend(loc='lower left')
 
     # DELAY
     results1.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,0], color='tab:green')
-    axes[3,0].set_ylabel('Network latency(ms)')
+    axes[3,0].set_ylabel('Latency(ms)')
     axes[3,0].legend(loc='lower left')
 
     results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,1], color='tab:green')
-    axes[3,1].set_ylabel('Network latency(ms)')
+    axes[3,1].set_ylabel('Latency(ms)')
     axes[3,1].legend(loc='lower left')
 
     axes[3,0].set_xlabel('Time(sec)')
