@@ -123,7 +123,7 @@ def start_detection(detection_name, change_rate, change_loss, change_delay):
             log_to_file(line.rstrip("\n"), od_output)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
-                threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
+                # threading.Thread(target=stop_detection, args=(ai_dtime+3,)).start()
                 stime = datetime.timestamp(datetime.now()) +3
                 # add dec and inc time to g
                 g.dec_time[detection_name] = random.uniform(((ai_dtime+3)/3)-5, ((ai_dtime+3)/3)+5)
