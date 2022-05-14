@@ -62,7 +62,10 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
     # test
     while True:
         if datetime.timestamp(datetime.now()) - stime >= timeout: 
-            disconnect()
+            global client
+            if not client: logger.warning("Invalid connection.")
+            else: client.close()
+            client = None
             break
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
