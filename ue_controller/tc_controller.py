@@ -28,11 +28,16 @@ def create_rules(rules):
         tc_cmd += f" --rate {rules['rate']}"
     if 'loss' in rules:
         tc_cmd += f" --loss {rules['loss']}"
-    tc_cmd += " --overwrite"
-    logger.info(f"Executing command '{tc_cmd}'")
-    logger.debug(os.system(tc_cmd))
+    # tc_cmd += " --overwrite"
+
+    delete_rules()
+    exec_and_log(tc_cmd + "--direction incoming")
+    exec_and_log(tc_cmd + "--direction outgoing")
 
 def delete_rules():
     tc_cmd = f"tcdel {if_name} --all"
-    logger.info(f"Executing command '{tc_cmd}'")
-    logger.debug(os.system(tc_cmd))
+    exec_and_log(os.system(tc_cmd))
+
+def exec_and_log(cmd):
+    logger.info(f"Executing command: \t'{cmd}'")
+    logger.debug(os.system(cmd))
