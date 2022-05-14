@@ -61,12 +61,7 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
     already_inc = False
     # test
     while True:
-        if datetime.timestamp(datetime.now()) - stime >= timeout: 
-            global client
-            if not client: logger.warning("Invalid connection.")
-            else: client.close()
-            client = None
-            break
+        if datetime.timestamp(datetime.now()) - stime >= timeout: break
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
             if change_rate:
@@ -124,6 +119,7 @@ def start_detection(detection_name, change_rate, change_loss, change_delay):
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
+            if datetime.timestamp(datetime.now()) - stime >= ai_dtime +3: break
             log_to_file(line.rstrip("\n"), od_output)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
