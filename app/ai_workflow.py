@@ -41,8 +41,8 @@ def disconnect():
     client = None
 
 # Decreases bandwidth
-def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, dec_time, inc_time, timeout=ai_dtime, delay=0):
-    logger.debug(f"Starting auto rules \t|\t rate: {change_rate} | loss: {change_loss} timeout: {timeout} | dec: {dec_time} | inc: {inc_time}  -----------------")
+def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, dec_time, inc_time, delay=0):
+    logger.debug(f"Starting auto rules \t|\t rate: {change_rate} | loss: {change_loss} timeout: {ai_dtime + 4} | dec: {dec_time} | inc: {inc_time}  -----------------")
     time.sleep(delay)
     # last
     lrate = 500.0
@@ -62,7 +62,7 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
     apply_rules = True
     # test
     while True:
-        if datetime.timestamp(datetime.now()) - stime >= timeout: break
+        if datetime.timestamp(datetime.now()) - stime >= ai_dtime+4: break
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
             apply_rules = True
@@ -70,8 +70,8 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
                 max_rate = 1
                 min_rate = 0.1
             if change_loss:
-                max_loss = 40.0
-                min_loss = 30.0
+                max_loss = 35.0
+                min_loss = 25.0
             if change_delay:
                 max_delay = 250
                 min_delay = 100
@@ -338,7 +338,8 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
 def update_uav_tc_rules(detection_name, rules, stime):
     global tc_results
-    logger.debug(f"Applying: {rules}")
+    if rules['apply']: logger.debug(f"-------- APPLYING: {rules}")
+    else: logger.debug(f"Simulating: {rules}")
     logger.debug(f"Result: {(requests.post(url=tc_control, json=rules)).json()}")
     if 'delay' in rules: rules['delay'] = float(rules['delay'][:-2])
     if 'rate' in rules: rules['rate'] = float(rules['rate'][:-4])
