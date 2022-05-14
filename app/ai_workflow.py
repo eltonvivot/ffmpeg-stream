@@ -71,7 +71,7 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
                 min_rate = 0.1
             if change_loss:
                 max_loss = 50.0
-                min_loss = 40.0
+                min_loss = 45.0
             if change_delay:
                 max_delay = 250
                 min_delay = 100
