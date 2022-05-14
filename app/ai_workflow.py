@@ -61,7 +61,9 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
     already_inc = False
     # test
     while True:
-        if datetime.timestamp(datetime.now()) - stime >= timeout: break
+        if datetime.timestamp(datetime.now()) - stime >= timeout: 
+            disconnect()
+            break
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
             if change_rate:
