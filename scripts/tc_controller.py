@@ -16,6 +16,7 @@ def post(args):
     if data == {}:
         print("You must inform at least one option of [rate | delay | loss].")
         return
+    data['apply'] = True
     print(f"Data:\n{data}")
     r = requests.post(url=API_ENDPOINT, json=data)
     print(r.json())
