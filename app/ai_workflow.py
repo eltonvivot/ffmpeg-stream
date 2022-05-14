@@ -119,7 +119,7 @@ def start_detection(detection_name, change_rate, change_loss, change_delay):
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
-            if datetime.timestamp(datetime.now()) - stime >= ai_dtime +3: break
+            if stime > 1 and datetime.timestamp(datetime.now()) - stime >= ai_dtime+3: break
             log_to_file(line.rstrip("\n"), od_output)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
