@@ -85,7 +85,7 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
                 max_delay = 15
                 min_delay = 0.3
 
-        time.sleep(random.uniform(0.7, 1.8))
+        time.sleep(random.uniform(0.5, 1.0))
         # random
         rules = {}
         rules['rate'] = f"{random.uniform(lrate-30 if lrate-30 > min_rate else min_rate, lrate+30 if lrate+30 < max_rate else max_rate)}Mbps"
@@ -119,7 +119,9 @@ def start_detection(detection_name, change_rate, change_loss, change_delay):
         # executes command
         _,stdout,stderr = client.exec_command(command, get_pty=True)
         for line in iter(stdout.readline, ""):
-            if stime > 1 and datetime.timestamp(datetime.now()) - stime >= ai_dtime + 3: break
+            if stime > 1 and datetime.timestamp(datetime.now()) - stime >= ai_dtime + 3:
+                logger.info(f"Stopping Detection. Duration = {datetime.timestamp(datetime.now()) - stime}")
+                break
             log_to_file(line.rstrip("\n"), od_output)
             if 'Video stream:' in line and not triggered_stop:
                 triggered_stop = True
