@@ -56,25 +56,28 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
     max_rate = 500.0
     max_loss = 2.5
     max_delay = 20
-    # decrease and increase time
+    # booleans
     already_dec = False
     already_inc = False
+    apply_rules = True
     # test
     while True:
         if datetime.timestamp(datetime.now()) - stime >= timeout: break
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
+            apply_rules = True
             if change_rate:
                 max_rate = 1
                 min_rate = 0.1
             if change_loss:
-                max_loss = 80.0
-                min_loss = 70.0
+                max_loss = 40.0
+                min_loss = 30.0
             if change_delay:
                 max_delay = 250
                 min_delay = 100
         if not already_inc and datetime.timestamp(datetime.now()) - stime >= inc_time:
             already_inc = True
+            apply_rules = True
             if change_rate:
                 max_rate = 500
                 min_rate = 300
@@ -85,14 +88,17 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
                 max_delay = 15
                 min_delay = 0.3
 
-        time.sleep(random.uniform(0.5, 1.0))
+        time.sleep(random.uniform(0.5, 1.5))
         # random
         rules = {}
         rules['rate'] = f"{random.uniform(lrate-30 if lrate-30 > min_rate else min_rate, lrate+30 if lrate+30 < max_rate else max_rate)}Mbps"
         rules['loss'] = f"{random.uniform(lloss-1.0 if lloss-1.0 > min_loss else min_loss, lloss+1.0 if lloss+1.0 < max_loss else max_loss)}%"
         rules['delay'] = f"{random.uniform(ldelay-4 if ldelay-4 > min_delay else min_delay, ldelay+4.0 if ldelay+4.0 < max_delay else max_delay)}ms"
+        rules['apply'] = apply_rules
 
         update_uav_tc_rules(detection_name, rules, stime)
+        if apply_rules: apply_rules = False
+
         lrate = rules['rate']
         lloss = rules['loss']
         ldelay = rules['delay']

@@ -21,6 +21,7 @@ def handle_uav_data():
         return jsonify({'result': 'Rules deleted.'})
 
 def create_rules(rules):
+    if not rules['apply']: return
     tc_cmd = f"tcset {if_name}"
     if 'delay' in rules:
         tc_cmd += f" --delay {rules['delay']} "
