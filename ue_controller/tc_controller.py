@@ -31,12 +31,12 @@ def create_rules(rules):
     # tc_cmd += " --overwrite"
 
     delete_rules()
-    exec_and_log(tc_cmd + "--direction incoming")
-    exec_and_log(tc_cmd + "--direction outgoing")
+    exec_and_log(f"{tc_cmd} --direction incoming")
+    exec_and_log(f"{tc_cmd} --direction outgoing")
 
 def delete_rules():
     tc_cmd = f"tcdel {if_name} --all"
-    exec_and_log(os.system(tc_cmd))
+    exec_and_log(tc_cmd)
 
 def exec_and_log(cmd):
     logger.info(f"Executing command: \t'{cmd}'")
