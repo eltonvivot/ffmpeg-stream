@@ -34,6 +34,8 @@ def create_rules(rules):
     # delete_rules()
     # exec_and_log(f"{tc_cmd} --direction incoming")
     # exec_and_log(f"{tc_cmd} --direction outgoing")
+    exec_and_log(f"{tc_cmd}")
+
 
 def delete_rules():
     tc_cmd = f"tcdel {if_name} --all"
