@@ -235,7 +235,13 @@ def plot_figures(should_save, should_display, first_name, second_name, from_file
     # logger.debug(f"RESULT 1 ---------------------\n{g.results[first_name]}\n")
     # logger.debug(f"RESULT 2 ---------------------\n{g.results[second_name]}\n")
     if from_files:
-        results1 = pd.read_json(g.results[first_name] + tc_results[first_name]) 
+        results1 = pd.read_json("/data/results1.json")
+        results2 = pd.read_json("/data/results2.json")
+        with open('/data/results_times.json') as json_file: times = json.load(json_file)
+        g.dec_time[first_name] = times[first_name]['dec_time']
+        g.inc_time[first_name] = times[first_name]['inc_time']
+        g.dec_time[second_name] = times[second_name]['dec_time']
+        g.inc_time[second_name] = times[second_name]['inc_time']
     else:
         # export data
         log_to_file(json.dumps(g.results[first_name] + tc_results[first_name]), "/data/results1.json")
@@ -250,7 +256,7 @@ def plot_figures(should_save, should_display, first_name, second_name, from_file
                 "inc_time": g.inc_time[second_name]
             }
         }
-        log_to_file(json.dumps(times, "/data/results_times.json"))
+        log_to_file(json.dumps(times), "/data/results_times.json")
 
         results1 = pd.DataFrame(g.results[first_name] + tc_results[first_name]) 
         results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
