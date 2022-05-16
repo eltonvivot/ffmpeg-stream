@@ -28,7 +28,7 @@ def create_rules(rules):
         tc_cmd += f" --delay {rules['delay']} "
     if 'rate' in rules:
         tc_cmd += f" --rate {rules['rate']}"
-        tc_cmd_ia += f" --rate {rules['rate']}"
+        tc_cmd_ai += f" --rate {rules['rate']}"
     if 'loss' in rules:
         tc_cmd += f" --loss {rules['loss']}"
     tc_cmd += " --overwrite"
