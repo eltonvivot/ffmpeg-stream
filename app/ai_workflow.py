@@ -110,7 +110,7 @@ def start_detection(detection_name, change_rate, change_loss, change_delay):
     # clean tc rules
     logger.info("Cleaning rules.") 
     rules = {'apply': True, 'delay': '0ms', 'loss': '0%', 'rate': '500Mbps'}
-    update_uav_tc_rules(detection_name, rules, datetime.timestamp(datetime.now()))
+    logger.debug(f"Result: {(requests.post(url=tc_control, json=rules)).json()}")
     #logger.debug(f"NEW RULES {tc_new_rules}")
     global client
     # Check if already have connections
