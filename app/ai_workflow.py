@@ -235,13 +235,22 @@ def plot_figures(should_save, should_display, first_name, second_name, from_file
     # logger.debug(f"RESULT 1 ---------------------\n{g.results[first_name]}\n")
     # logger.debug(f"RESULT 2 ---------------------\n{g.results[second_name]}\n")
     if from_files:
-        pass
+        results1 = pd.read_json(g.results[first_name] + tc_results[first_name]) 
     else:
         # export data
         log_to_file(json.dumps(g.results[first_name] + tc_results[first_name]), "/data/results1.json")
         log_to_file(json.dumps(g.results[second_name] + tc_results[second_name]), "/data/results2.json")
-        log_to_file(json.dumps({ f"{first_name}": {"dec_time": g.dec_time[first_name], "inc_time": g.inc_time[first_name]},
-         f"{second_name}": {"dec_time": g.dec_time[second_name], "inc_time": g.inc_time[second_name]}}, "/data/results2.json"), "/data/results_times.json")
+        times = {
+            f"{first_name}": {
+                "dec_time": g.dec_time[first_name],
+                "inc_time": g.inc_time[first_name]
+            },
+            f"{second_name}": {
+                "dec_time": g.dec_time[second_name], 
+                "inc_time": g.inc_time[second_name]
+            }
+        }
+        log_to_file(json.dumps(times, "/data/results_times.json"))
 
         results1 = pd.DataFrame(g.results[first_name] + tc_results[first_name]) 
         results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
