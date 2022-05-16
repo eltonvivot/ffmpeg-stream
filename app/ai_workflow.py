@@ -252,63 +252,67 @@ def plot_figures(should_save, should_display, first_name, second_name):
 
     # creates graphic
     sns.set_context('paper', font_scale=1.5)
-    fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
-    # fig, axes = plt.subplots(nrows=5, ncols=2, sharex='col', figsize=(15,15))
-
+    # fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
+    fig, axes = plt.subplots(nrows=5, ncols=2, sharex='col', figsize=(15,15))
+    i = 0
     # AP %
-    # results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
-    # axes[0,0].set_ylabel("Precision(%)")
-    # axes[0,0].set_yticks(np.array([30, 60, 90]))
-    # axes[0,0].legend(loc='lower left')
+    results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[i,0], color='tab:blue')
+    axes[i,0].set_ylabel("Precision(%)")
+    axes[i,0].set_yticks(np.array([30, 60, 90]))
+    axes[i,0].legend(loc='lower left')
 
-    # results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
-    # axes[0,1].set_ylabel("Precision(%)")
-    # axes[0,1].set_yticks(np.array([30, 60, 90]))
-    # axes[0,1].legend(loc='lower left')
+    results2.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[i,1], color='tab:blue')
+    axes[i,1].set_ylabel("Precision(%)")
+    axes[i,1].set_yticks(np.array([30, 60, 90]))
+    axes[i,1].legend(loc='lower left')
     
+    i+=1
     # Detection Quantity
-    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[0,0], color='tab:blue')
-    axes[0,0].set_ylabel("Quantity")
-    axes[0,0].legend(loc='lower left')
-    axes[0,0].set_yticks(np.array([0, 20, 40]))
-
-    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[0,1], color='tab:blue')
-    axes[0,1].set_ylabel("Quantity")
-    axes[0,1].legend(loc='lower left')
-    axes[0,1].set_yticks(np.array([0, 20, 40]))
-
-    # RATE
-    results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,0], color='tab:red')
-    axes[1,0].set_ylabel('Bandwidth(Mbit/s)')
+    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[i,0], color='tab:purple')
+    axes[i,0].set_ylabel("Quantity")
     axes[1,0].legend(loc='lower left')
+    axes[1,0].set_yticks(np.array([0, 20, 40]))
 
-    results2.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[1,1], color='tab:red')
-    axes[1,1].set_ylabel('Bandwidth(Mbit/s)')
-    axes[1,1].legend(loc='lower left')
+    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[i,1], color='tab:purple')
+    axes[i,1].set_ylabel("Quantity")
+    axes[i,1].legend(loc='lower left')
+    axes[i,1].set_yticks(np.array([0, 20, 40]))
 
+    i+=1
+    # RATE
+    results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[i,0], color='tab:red')
+    axes[i,0].set_ylabel('Bandwidth(Mbit/s)')
+    axes[i,0].legend(loc='lower left')
+
+    results2.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[i,1], color='tab:red')
+    axes[i,1].set_ylabel('Bandwidth(Mbit/s)')
+    axes[i,1].legend(loc='lower left')
+
+    i+=1
     # LOSS
-    results1.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,0], color='tab:orange')
-    axes[2,0].set_ylabel('Package loss(%)')
-    axes[2,0].legend(loc='lower left')
+    results1.plot(kind='line',y='loss',x='time',label='UE', ax=axes[i,0], color='tab:orange')
+    axes[i,0].set_ylabel('Package loss(%)')
+    axes[i,0].legend(loc='lower left')
 
-    results2.plot(kind='line',y='loss',x='time',label='UE', ax=axes[2,1], color='tab:orange')
-    axes[2,1].set_ylabel('Package loss(%)')
-    axes[2,1].legend(loc='lower left')
+    results2.plot(kind='line',y='loss',x='time',label='UE', ax=axes[i,1], color='tab:orange')
+    axes[i,1].set_ylabel('Package loss(%)')
+    axes[i,1].legend(loc='lower left')
 
+    i+=1
     # DELAY
-    results1.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,0], color='tab:green')
-    axes[3,0].set_ylabel('Latency(ms)')
-    axes[3,0].legend(loc='lower left')
+    results1.plot(kind='line',y='delay',x='time',label='UE', ax=axes[i,0], color='tab:green')
+    axes[i,0].set_ylabel('Latency(ms)')
+    axes[i,0].legend(loc='lower left')
 
-    results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[3,1], color='tab:green')
-    axes[3,1].set_ylabel('Latency(ms)')
-    axes[3,1].legend(loc='lower left')
+    results2.plot(kind='line',y='delay',x='time',label='UE', ax=axes[i,1], color='tab:green')
+    axes[i,1].set_ylabel('Latency(ms)')
+    axes[i,1].legend(loc='lower left')
 
-    axes[3,0].set_xlabel('Time(sec)')
-    axes[3,1].set_xlabel('Time(sec)')   
+    axes[i,0].set_xlabel('Time(sec)')
+    axes[i,1].set_xlabel('Time(sec)')   
 
     # Adds vertical lines
-    for i in range(4):
+    for i in range(5):
         axes[i, 0].axvline(g.inc_time[first_name],linestyle ="dotted", color='tab:gray')
         axes[i, 0].axvline(g.dec_time[first_name],linestyle ="dotted", color='tab:gray')
 
@@ -335,7 +339,6 @@ def plot_figures(should_save, should_display, first_name, second_name):
         plt.savefig(f"{gc_folder}result_{int(datetime.timestamp(datetime.now()))}.pdf", bbox_inches='tight')
     if should_display:
         plt.show()
-
 
 def update_uav_tc_rules(detection_name, rules, stime):
     global tc_results
