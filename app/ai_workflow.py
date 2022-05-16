@@ -97,6 +97,7 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
         rules['apply'] = apply_rules
 
         update_uav_tc_rules(detection_name, rules, stime)
+        time.sleep(1)
         if apply_rules: apply_rules = False
 
         lrate = rules['rate']
