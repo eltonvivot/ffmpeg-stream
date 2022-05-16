@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import g
 from matplotlib.pyplot import xlim
 from config import ai_user, ai_passwd, ai_host, ai_port, ai_dtime, uav_cam, od_output, od_results, tc_control, gc_folder
-import paramiko, logging, time, os, threading, requests, random
+import paramiko, logging, time, os, threading, requests, random, json
 import matplotlib.pylab as plt 
 import pandas as pd 
 import seaborn as sns
@@ -67,11 +67,11 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
             already_dec = True
             apply_rules = True
             if change_rate:
-                max_rate = 1
-                min_rate = 0.1
+                max_rate = 2
+                min_rate = 0.3
             if change_loss:
-                max_loss = 45.0
-                min_loss = 40.0
+                max_loss = 40.0
+                min_loss = 30.0
             if change_delay:
                 max_delay = 250
                 min_delay = 100
@@ -107,6 +107,10 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
 
 # Starts AI Object Detection
 def start_detection(detection_name, change_rate, change_loss, change_delay):
+    # clean tc rules
+    logger.info("Cleaning rules.") 
+    rules = {'apply': True, 'delay': '0ms', 'loss': '0%', 'rate': '500Mbps'}
+    update_uav_tc_rules(detection_name, rules, datetime.timestamp(datetime.now()))
     #logger.debug(f"NEW RULES {tc_new_rules}")
     global client
     # Check if already have connections
@@ -225,14 +229,24 @@ def plot_figure_old(should_save, should_display, results):
     if should_display:
         plt.show()
 
-def plot_figures(should_save, should_display, first_name, second_name):    
+def plot_figures(should_save, should_display, first_name, second_name, from_files=False):    
     sns.set_theme(style="darkgrid")
     # load results
     # logger.debug(f"RESULT 1 ---------------------\n{g.results[first_name]}\n")
     # logger.debug(f"RESULT 2 ---------------------\n{g.results[second_name]}\n")
-    results1 = pd.DataFrame(g.results[first_name] + tc_results[first_name])
+    if from_files:
+        pass
+    else:
+        # export data
+        log_to_file(json.dumps(g.results[first_name] + tc_results[first_name]), "/data/results1.json")
+        log_to_file(json.dumps(g.results[second_name] + tc_results[second_name]), "/data/results2.json")
+        log_to_file(json.dumps({ f"{first_name}": {"dec_time": g.dec_time[first_name], "inc_time": g.inc_time[first_name]},
+         f"{second_name}": {"dec_time": g.dec_time[second_name], "inc_time": g.inc_time[second_name]}}, "/data/results2.json"), "/data/results_times.json")
+
+        results1 = pd.DataFrame(g.results[first_name] + tc_results[first_name]) 
+        results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
+        
     results1.sort_values(by=['time'], inplace=True)
-    results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
     results2.sort_values(by=['time'], inplace=True)
     # aps count
     aps1 = pd.DataFrame({})
