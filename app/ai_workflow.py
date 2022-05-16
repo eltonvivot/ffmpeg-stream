@@ -291,7 +291,20 @@ def plot_figures(should_save, should_display, first_name, second_name, from_file
     sns.set_context('paper', font_scale=1.5)
     # fig, axes = plt.subplots(nrows=4, ncols=2, sharex='col', figsize=(15,12))
     fig, axes = plt.subplots(nrows=5, ncols=2, sharex='col', figsize=(15,15))
+    
     i = 0
+    # Detection Quantity
+    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[i,0], color='tab:purple')
+    axes[i,0].set_ylabel("Quantity")
+    axes[1,0].legend(loc='lower left')
+    axes[1,0].set_yticks(np.array([0, 20, 40]))
+
+    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[i,1], color='tab:purple')
+    axes[i,1].set_ylabel("Quantity")
+    axes[i,1].legend(loc='lower left')
+    axes[i,1].set_yticks(np.array([0, 20, 40]))
+    
+    i+=1
     # AP %
     results1.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[i,0], color='tab:blue')
     axes[i,0].set_ylabel("Precision(%)")
@@ -303,18 +316,6 @@ def plot_figures(should_save, should_display, first_name, second_name, from_file
     axes[i,1].set_yticks(np.array([30, 60, 90]))
     axes[i,1].legend(loc='lower left')
     
-    i+=1
-    # Detection Quantity
-    aps1_qnt.plot(kind='line', y='ap', x='time',label="Detected People", ax=axes[i,0], color='tab:purple')
-    axes[i,0].set_ylabel("Quantity")
-    axes[1,0].legend(loc='lower left')
-    axes[1,0].set_yticks(np.array([0, 20, 40]))
-
-    aps2_qnt.plot(kind='line', y='ap', x='time',label='Detected People', ax=axes[i,1], color='tab:purple')
-    axes[i,1].set_ylabel("Quantity")
-    axes[i,1].legend(loc='lower left')
-    axes[i,1].set_yticks(np.array([0, 20, 40]))
-
     i+=1
     # RATE
     results1.plot(kind='line',x='time',y='rate', label='UE' , ax=axes[i,0], color='tab:red')
