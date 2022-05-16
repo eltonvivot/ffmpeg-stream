@@ -66,27 +66,35 @@ def auto_rules(detection_name, change_rate, change_loss, change_delay, stime, de
         if not already_dec and datetime.timestamp(datetime.now()) - stime >= dec_time:
             already_dec = True
             apply_rules = True
+            logger.info("------- DECREASING ----------")
             if change_rate:
                 max_rate = 2
                 min_rate = 0.3
+                lrate = 1.2
             if change_loss:
                 max_loss = 40.0
                 min_loss = 30.0
+                lloss = 35
             if change_delay:
                 max_delay = 250
                 min_delay = 100
+                ldelay = 130
         if not already_inc and datetime.timestamp(datetime.now()) - stime >= inc_time:
+            logger.info("------- INCREASING ----------")
             already_inc = True
             apply_rules = True
             if change_rate:
                 max_rate = 500
                 min_rate = 300
+                lrate = 400
             if change_loss:
                 max_loss = 2.5
                 min_loss = 0.0
+                lloss = 1.2
             if change_delay:
                 max_delay = 15
                 min_delay = 0.3
+                ldelay = 5
 
         time.sleep(random.uniform(0.5, 1.5))
         # random
