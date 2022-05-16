@@ -23,18 +23,22 @@ def handle_uav_data():
 def create_rules(rules):
     if not rules['apply']: return
     tc_cmd = f"tcset {if_name}"
+    tc_cmd_ai = f"tcset {if_name}"
     if 'delay' in rules:
         tc_cmd += f" --delay {rules['delay']} "
     if 'rate' in rules:
         tc_cmd += f" --rate {rules['rate']}"
+        tc_cmd_ia += f" --rate {rules['rate']}"
     if 'loss' in rules:
         tc_cmd += f" --loss {rules['loss']}"
     tc_cmd += " --overwrite"
+    tc_cmd_ai += " --direction incoming --overwrite"
 
     # delete_rules()
     # exec_and_log(f"{tc_cmd} --direction incoming")
     # exec_and_log(f"{tc_cmd} --direction outgoing")
     exec_and_log(f"{tc_cmd}")
+    exec_and_log(f"sshpass -p 'ffmpeg' ssh root@10.10.21.11 {tc_cmd_ai}")
 
 
 def delete_rules():
