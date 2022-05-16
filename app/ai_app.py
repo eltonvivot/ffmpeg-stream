@@ -39,3 +39,13 @@ def handle_start_detection():
 def handle_stop_detection():
     stop_detection()
     return jsonify({'result':'Object Detection Stopped.'})
+
+@ai_app_bp.route('/ai_detection/plot', methods=['GET'])
+def handle_plot():
+    g.results = {}
+    g.inc_time = {}
+    g.dec_time = {}
+    first_name = 'first'
+    second_name = 'second'
+    plot_figures(True, False, first_name, second_name, from_files=True)
+    return jsonify({'result': "Ok."})
