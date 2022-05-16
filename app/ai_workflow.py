@@ -244,8 +244,8 @@ def plot_figures(should_save, should_display, first_name, second_name, from_file
         g.inc_time[second_name] = times[second_name]['inc_time']
     else:
         # export data
-        log_to_file(json.dumps(g.results[first_name] + tc_results[first_name]), "/data/results1.json")
-        log_to_file(json.dumps(g.results[second_name] + tc_results[second_name]), "/data/results2.json")
+        with open("/data/results1.json", 'w') as cfile: json.dump(g.results[first_name] + tc_results[first_name], cfile, indent=2)
+        with open("/data/results2.json", 'w') as cfile: json.dump(g.results[second_name] + tc_results[second_name], cfile, indent=2)
         times = {
             f"{first_name}": {
                 "dec_time": g.dec_time[first_name],
@@ -256,7 +256,7 @@ def plot_figures(should_save, should_display, first_name, second_name, from_file
                 "inc_time": g.inc_time[second_name]
             }
         }
-        log_to_file(json.dumps(times), "/data/results_times.json")
+        with open("/data/results_times.json", 'w') as cfile: json.dump(times, cfile, indent=2)
 
         results1 = pd.DataFrame(g.results[first_name] + tc_results[first_name]) 
         results2 = pd.DataFrame(g.results[second_name] + tc_results[second_name])
