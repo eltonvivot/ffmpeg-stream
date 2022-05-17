@@ -1,4 +1,6 @@
 import os, time, threading
+from os import listdir
+from os.path import isfile, join
 
 docker_file = "/root/ffmpeg-stream/docker-compose.yaml"
 ai_ip = "10.10.21.11"
@@ -30,4 +32,9 @@ def get_frame(last_name, new_name):
     print("Done.")
 
 if __name__ == '__main__':
-    get_frame("0002", "0003")
+    # get_frame("0002", "0003")
+
+    mypath = "/root/ffmpeg-stream/video-test/"
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    for f in onlyfiles:
+        print(f[:-4])
