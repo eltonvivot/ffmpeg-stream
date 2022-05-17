@@ -11,6 +11,7 @@ cont_name = "uav-cam"
 def get_frame(last_name, new_name):
     print("Changing docker-compose ...")
     os.system(f"sed -i 's/{last_name}/{new_name}/g' {docker_file}")
+    time.sleep(2)
 
     print("Starting docker container ...")
     os.system(f"docker-compose -f {docker_file} up -d --build {cont_name}")
@@ -29,4 +30,4 @@ def get_frame(last_name, new_name):
     print("Done.")
 
 if __name__ == '__main__':
-    get_frame("0001", "0002")
+    get_frame("0002", "0003")
