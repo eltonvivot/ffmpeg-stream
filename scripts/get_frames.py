@@ -11,6 +11,7 @@ rtsp_trans = ""
 cont_name = "uav-cam"
 
 def get_frame(last_name, new_name):
+    print(f"\n------- GETTING FRAME {new_name} -------")
     print("Changing docker-compose ...")
     os.system(f"sed -i 's/{last_name}/{new_name}/g' {docker_file}")
     time.sleep(2)
@@ -35,7 +36,9 @@ if __name__ == '__main__':
     # get_frame("0002", "0003")
 
     mypath = "/root/ffmpeg-stream/video-test/"
-    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and '.mp4' in f]
     onlyfiles.sort()
+    last = '0001'
     for f in onlyfiles:
-        print(f[:-4])
+        get_frame(last, f[:-4])
+        last = f[:-4]
