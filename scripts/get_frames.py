@@ -1,4 +1,4 @@
-import os, time
+import os, time, threading
 
 docker_file = "/root/ffmpeg-stream/docker-compose.yaml"
 ai_ip = "10.10.21.11"
@@ -19,7 +19,7 @@ def get_frame(last_name, new_name):
     time.sleep(5)
 
     print("Getting frame ...")
-    os.system(f"sshpass -p {ai_pass} ssh {ai_user}@{ai_ip} 'cd /root/loss && ./get_frame.sh {new_name} &>/dev/null &'")
+    threading.Thread(target=os.system, args=(f"sshpass -p {ai_pass} ssh {ai_user}@{ai_ip} 'cd /root/loss && ./get_frame.sh {new_name} &>/dev/null &'", )).start()
     print("Wainting 5s ...")
     time.sleep(5)
 
