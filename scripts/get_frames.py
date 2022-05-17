@@ -33,7 +33,6 @@ def get_frame(last_name, new_name):
     print("Done.")
 
 if __name__ == '__main__':
-    # get_frame("0002", "0003")
 
     mypath = "/root/ffmpeg-stream/video-test/"
     onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f)) and '.mp4' in f]
@@ -42,3 +41,5 @@ if __name__ == '__main__':
     for f in onlyfiles:
         get_frame(last, f[:-4])
         last = f[:-4]
+    
+    os.system(f"sed -i 's/{last}/0001/g' {docker_file}")
