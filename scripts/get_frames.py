@@ -36,5 +36,6 @@ if __name__ == '__main__':
 
     mypath = "/root/ffmpeg-stream/video-test/"
     onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    onlyfiles.sort()
     for f in onlyfiles:
         print(f[:-4])
