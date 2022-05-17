@@ -20,16 +20,16 @@ def get_frame(last_name, new_name):
     os.system(f"docker-compose -f {docker_file} up -d --build {cont_name}")
     
     print("Wainting 5s ...")
-    time.sleep(5)
+    time.sleep(7)
 
     print("Getting frame ...")
     threading.Thread(target=os.system, args=(f"sshpass -p {ai_pass} ssh {ai_user}@{ai_ip} 'cd /root/loss && ./get_frame.sh {new_name} &>/dev/null &'", )).start()
     print("Wainting 5s ...")
-    time.sleep(5)
+    time.sleep(7)
 
     print("Stopping docker container ...")
     os.system(f"docker stop {cont_name}")
-    time.sleep(1)
+    time.sleep(2)
     print("Done.")
 
 if __name__ == '__main__':
