@@ -10,8 +10,9 @@ services:
       - rtsp-server
     volumes:
       - ./media/:/media
+      - ./video-frames/:/video-frames
     network_mode: "host"
-    command: "ffmpeg -re -stream_loop -1 -i /media/video1.mp4 -vf 'fps=3'  -b:v 100M  -maxrate 1000M -bufsize 50M -f rtsp rtsp://localhost:8554/compose-rtsp"
+    command: "ffmpeg -re -stream_loop -1 -i /video-frames/0341.mp4 -vf 'fps=30'  -b:v 10M  -maxrate 100M -bufsize 5M -f rtsp rtsp://0.0.0.0:8554/compose-rtsp"
     # command: "${FFMPEG_CMD}"
 
   rtsp-server:

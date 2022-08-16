@@ -1,1 +1,6 @@
-{}
+{
+  "delay": "0.1ms",
+  "rate": "200.0Mbps",
+  "loss": "30.0%",
+  "apply": true
+}
